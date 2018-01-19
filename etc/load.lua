@@ -7,6 +7,7 @@ require("module/MCommonConfigData")
 require("module/MTextData")
 require("module/MCardInfoData")
 require("module/MGoodsInfoData")
+require("module/MTaskInfoData")
 require("module/MPhoneContactData")
 require("module/MPhoneMsgData")
 require("module/MFriendMsgData")
@@ -20,6 +21,7 @@ JSON=assert(loadfile(officialCodeBase.."lib/JSON.lua"))()
 
 trans={
 	rare={"N","NH","R","SR","SSR"},
+	taskType={[0]="day","night","male"},
 	howToGet=function (s)
 		local getMethod={[0]="special","coin_lottery","diamond_lottery","map","star_exchange","composite",[30]="许愿兑换",[31]="交易所"}
 		local a=string.split(s,':')
