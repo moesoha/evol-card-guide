@@ -3,13 +3,35 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import data_card from '../data/card.json'
+import data_goods from '../data/goods.json'
+import data_howToGet from '../data/howToGet.json'
 
 Vue.config.productionTip = false
 
+Vue.prototype.evol={
+	card: data_card,
+	goods: data_goods,
+	howToGet: data_howToGet,
+	index: {}
+};
+
+let index={};
+data_card.forEach(function (data,i){
+	index[data.id.toString()]=i;
+});
+Vue.prototype.evol.index.card=index;
+
+index={};
+data_goods.forEach(function (data,i){
+	index[data.id.toString()]=i;
+});
+Vue.prototype.evol.index.goods=index;
+
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+	el: '#app',
+	router,
+	components: { App },
+	template: '<App/>'
 })
