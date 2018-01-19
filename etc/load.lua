@@ -15,6 +15,7 @@ require("module/MTagData")
 require("module/MTextData")
 require("module/MCardEvolutionInfoData")
 require("module/MCardAdvanceInfoData")
+require("module/MCardDesignInfoData")
 JSON=assert(loadfile(officialCodeBase.."lib/JSON.lua"))()
 
 trans={

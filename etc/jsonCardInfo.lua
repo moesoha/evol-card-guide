@@ -51,6 +51,7 @@ for _,value in pairs(cardIds) do
 		rewards={
 			resolve=trans.extractGoodsStr(card_info_data.data[value].card_resolve_price),
 		},
+		composition={},
 		tag=MCardInfoData.GetFriendTagById(value),
 		sentence={
 			tag=MTextData.GetText(MCardInfoData.GetFriendTagDescById(value)),
@@ -63,6 +64,9 @@ for _,value in pairs(cardIds) do
 		},
 		price={}
 	}
+	local designr=MCardInfoData.GetDraftRowById(value)
+	thisCardData.composition.howToGet=trans.howToGet(designr.card_design_get)
+	thisCardData.composition.price=trans.extractGoodsStr(designr.card_design_price)
 	local rewards={}
 	local rewardStrArr=string.split(MCardInfoData.GetAchieveRewards(value),":")
 	if(rewardStrArr) then
