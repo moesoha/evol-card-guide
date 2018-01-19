@@ -1,11 +1,45 @@
 <template>
 	<div>
+		<img :src="'http://127.0.0.1:3040/'+thisCard.pic.normal+'_h.png'">
+		<img :src="'http://127.0.0.1:3040/'+thisCard.pic.evolved+'_h.png'">
 		<h1>[{{thisCard.rare}}] {{ thisCard.name }}</h1>
 		<p id="cardshow-maxrank">
 			<span v-for="n in thisCard.maxRank">★</span>
 		</p>
 		<h2>{{thisCard.sentence.talk}}</h2>
-		<h3 v-if="thisCard.sentence.talk!=thisCard.sentence.shout">{{thisCard.sentece.shout}}</h3>
+		<h3 v-if="thisCard.sentence.talk!=thisCard.sentence.shout">{{thisCard.sentence.shout}}</h3>
+		<b>{{evol.tag[evol.index.tag[thisCard.tag]].name}}</b> / <i>{{thisCard.sentence.tag}}</i>
+		<div id="cardshow-property">
+			<hr>
+			<h3>属性</h3>
+			<table border="1">
+				<thead>
+					<tr>
+						<th></th>
+						<th>决策力</th>
+						<th>创造力</th>
+						<th>亲和力</th>
+						<th>行动力</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>基础值</td>
+						<td>{{thisCard.property.base.decision}}</td>
+						<td>{{thisCard.property.base.creativity}}</td>
+						<td>{{thisCard.property.base.affinity}}</td>
+						<td>{{thisCard.property.base.execution}}</td>
+					</tr>
+					<tr>
+						<td>基础成长值</td>
+						<td>{{thisCard.property.inc.decision}}</td>
+						<td>{{thisCard.property.inc.creativity}}</td>
+						<td>{{thisCard.property.inc.affinity}}</td>
+						<td>{{thisCard.property.inc.execution}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<div id="cardshow-level">
 			<hr>
 			<h3>等级</h3>
@@ -14,7 +48,7 @@
 					<tr>
 						<th>进化前最高</th>
 						<th>进化后最高</th>
-						<th>进化等级</th>
+						<th>进化所需等级</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -96,3 +130,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+img {
+	max-width: 40vw;
+}
+</style>
