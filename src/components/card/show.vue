@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<img :src="'http://127.0.0.1:3040/'+thisCard.pic.normal+'_h.png'">
-		<img :src="'http://127.0.0.1:3040/'+thisCard.pic.evolved+'_h.png'">
+		<img :src="'http://files.cos.lohu.info/com.papegames.evol/public/card_h/'+thisCard.pic.normal+'_h.jpg'">
+		<img :src="'http://files.cos.lohu.info/com.papegames.evol/public/card_h/'+thisCard.pic.evolved+'_h.jpg'">
 		<h1>[{{thisCard.rare}}] {{ thisCard.name }}</h1>
 		<p id="cardshow-maxrank">
 			<span v-for="n in thisCard.maxRank">★</span>
@@ -138,9 +138,9 @@
 export default {
 	name: 'CardShow',
 	data(){
-		console.log(this.$route.params);
-		console.log(this.evol);
-		console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
+		// console.log(this.$route.params);
+		// console.log(this.evol);
+		// console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
 		return {
 			evol: this.evol,
 			thisCard: this.evol.card[this.evol.index.card[this.$route.params.id.toString()]],

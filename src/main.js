@@ -20,11 +20,13 @@ Vue.prototype.evol={
 	index: {}
 };
 
-let index={};
+let index={},nameIndex={};
 data_card.forEach(function (data,i){
 	index[data.id.toString()]=i;
+	nameIndex[data.id.toString()]=data.name;
 });
 Vue.prototype.evol.index.card=index;
+Vue.prototype.evol.index.card_name=nameIndex;
 index={};
 data_goods.forEach(function (data,i){
 	index[data.id.toString()]=i;
@@ -35,6 +37,7 @@ data_tag.forEach(function (data,i){
 	index[data.id.toString()]=i;
 });
 Vue.prototype.evol.index.tag=index;
+index=nameIndex=null;
 
 /* eslint-disable no-new */
 new Vue({

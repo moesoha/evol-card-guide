@@ -87,6 +87,7 @@
 export default {
   name: 'HelloWorld',
   data () {
+	  this.$router.push('/card/search/Search')
     return {
       msg: 'Welcome to Your Vue.js App'
     }
