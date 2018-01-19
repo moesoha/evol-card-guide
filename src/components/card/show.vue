@@ -65,9 +65,8 @@
 			<h3>获得方式</h3>
 			<div>
 				<p v-for="item in thisCard.howToGet">
-					<span v-if="((parseInt(item.type)).toString())!=item.type">{{item.type}}</span>
-					 - 
-					<span>{{item.value}}</span>
+					<span>{{getGetMethodType(item.type)}}</span>
+					<span v-if="item.value.toString()!=0">{{item.value}}</span>
 				</p>
 			</div>
 		</div>
@@ -97,6 +96,25 @@
 			</div>
 			<h5>属性值 +{{thisCard.property.evolutionBonus}}%</h5>
 		</div>
+		<div id="cardshow-howtoget">
+			<hr>
+			<h3>碎片合成</h3>
+			<h4>获得方式</h4>
+			<div>
+				<p v-for="item in thisCard.composition.howToGet">
+					<span>{{getGetMethodType(item.type)}}</span>
+					<span v-if="item.value.toString()!=0">{{item.value}}</span>
+				</p>
+			</div>
+			<h4>材料</h4>
+			<div>
+				<p>
+					<span v-for="item in thisCard.composition.price">
+						{{evol.goods[evol.index.goods[item.item]].name}}x{{item.count}} &nbsp;
+					</span>
+				</p>
+			</div>
+		</div>
 		<div id="cardshow-rewards">
 			<hr>
 			<h3>奖励</h3>
@@ -125,7 +143,15 @@ export default {
 		console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
 		return {
 			evol: this.evol,
-			thisCard: this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]
+			thisCard: this.evol.card[this.evol.index.card[this.$route.params.id.toString()]],
+			getGetMethodType: function (type){
+				type=type.toString();
+				if(this.evol.howToGet.hasOwnProperty(type) && type!="0"){
+					return this.evol.howToGet[type];
+				}else{
+					return "";
+				}
+			}
 		}
 	}
 }
@@ -133,6 +159,6 @@ export default {
 
 <style scoped>
 img {
-	max-width: 40vw;
+	max-width: 30vw;
 }
 </style>
