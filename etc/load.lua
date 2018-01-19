@@ -75,7 +75,7 @@ trans={
 		return r
 	end,
 	extractAttrStr=function (s)
-		a=string.split(s,",")
+		a=string.split(s,":")
 		return {
 			decision=a[1],
 			creativity=a[2],
