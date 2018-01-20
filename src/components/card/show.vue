@@ -65,18 +65,18 @@
 			<h3>获得方式</h3>
 			<div>
 				<p v-for="item in thisCard.howToGet">
-					<i>{{getGetMethodType(item.type)}}</i>
+					<span v-if="item.type!=3">{{getGetMethodType(item.type)}}</span>
 					<span v-if="item.value.toString()!=0">
 						<span v-if="item.type==3">
-							<small v-if="evol.task[evol.index.task[item.value.toString()]].type=='day'">
-								普通
-							</small>
-							<small v-if="evol.task[evol.index.task[item.value.toString()]].type=='night'">
-								精英
-							</small>
-							<small v-if="evol.task[evol.index.task[item.value.toString()]].type=='male'">
+							<span v-if="evol.task[evol.index.task[item.value.toString()]].type=='day'">
+								普通关卡
+							</span>
+							<span v-if="evol.task[evol.index.task[item.value.toString()]].type=='night'">
+								精英关卡
+							</span>
+							<span v-if="evol.task[evol.index.task[item.value.toString()]].type=='male'">
 								{{evol.role[evol.task[evol.index.task[item.value.toString()]].role]}}副本
-							</small>
+							</span>
 							{{evol.task[evol.index.task[item.value.toString()]].stringid}} {{evol.task[evol.index.task[item.value.toString()]].name}}
 						</span>
 						<span v-else>{{item.value}}</span>
