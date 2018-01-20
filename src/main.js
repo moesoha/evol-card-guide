@@ -9,6 +9,7 @@ import data_card from '../data/card.json'
 import data_goods from '../data/goods.json'
 import data_tag from '../data/tag.json'
 import data_howToGet from '../data/howToGet.json'
+import data_task from '../data/task.json'
 
 Vue.config.productionTip = false
 
@@ -17,7 +18,15 @@ Vue.prototype.evol={
 	goods: data_goods,
 	howToGet: data_howToGet,
 	tag: data_tag,
-	index: {}
+	task: data_task,
+	index: {},
+	role: [
+		null,
+		"李泽言",
+		"许墨",
+		"周棋洛",
+		"白起"
+	]
 };
 
 let index={},nameIndex={};
@@ -32,6 +41,11 @@ data_goods.forEach(function (data,i){
 	index[data.id.toString()]=i;
 });
 Vue.prototype.evol.index.goods=index;
+index={};
+data_task.forEach(function (data,i){
+	index[data.id.toString()]=i;
+});
+Vue.prototype.evol.index.task=index;
 index={};
 data_tag.forEach(function (data,i){
 	index[data.id.toString()]=i;

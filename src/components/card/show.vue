@@ -65,8 +65,22 @@
 			<h3>获得方式</h3>
 			<div>
 				<p v-for="item in thisCard.howToGet">
-					<span>{{getGetMethodType(item.type)}}</span>
-					<span v-if="item.value.toString()!=0">{{item.value}}</span>
+					<i>{{getGetMethodType(item.type)}}</i>
+					<span v-if="item.value.toString()!=0">
+						<span v-if="item.type==3">
+							<small v-if="evol.task[evol.index.task[item.value.toString()]].type=='day'">
+								普通
+							</small>
+							<small v-if="evol.task[evol.index.task[item.value.toString()]].type=='night'">
+								精英
+							</small>
+							<small v-if="evol.task[evol.index.task[item.value.toString()]].type=='male'">
+								{{evol.role[evol.task[evol.index.task[item.value.toString()]].role]}}副本
+							</small>
+							{{evol.task[evol.index.task[item.value.toString()]].stringid}} {{evol.task[evol.index.task[item.value.toString()]].name}}
+						</span>
+						<span v-else>{{item.value}}</span>
+					</span>
 				</p>
 			</div>
 		</div>
@@ -99,13 +113,13 @@
 		<div id="cardshow-howtoget">
 			<hr>
 			<h3>碎片合成</h3>
-			<h4>获得方式</h4>
+			<!-- <h4>获得方式</h4>
 			<div>
 				<p v-for="item in thisCard.composition.howToGet">
 					<span>{{getGetMethodType(item.type)}}</span>
 					<span v-if="item.value.toString()!=0">{{item.value}}</span>
 				</p>
-			</div>
+			</div> -->
 			<h4>材料</h4>
 			<div>
 				<p>
