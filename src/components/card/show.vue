@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<img :src="'http://files.cos.lohu.info/com.papegames.evol/public/card_h/'+thisCard.pic.normal+'_h.jpg'">
-		<img :src="'http://files.cos.lohu.info/com.papegames.evol/public/card_h/'+thisCard.pic.evolved+'_h.jpg'">
+		<img :src="appConfig.cardPicPath+thisCard.pic.normal+'_h.jpg'">
+		<img :src="appConfig.cardPicPath+thisCard.pic.evolved+'_h.jpg'">
 		<h1>[{{thisCard.rare}}] {{ thisCard.name }}</h1>
 		<p id="cardshow-maxrank">
 			<span v-for="n in thisCard.maxRank">★</span>
@@ -155,8 +155,10 @@ export default {
 		// console.log(this.$route.params);
 		// console.log(this.evol);
 		// console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
+		// console.log(this.appConfig);
 		return {
 			evol: this.evol,
+			appConfig: this.appConfig,
 			thisCard: this.evol.card[this.evol.index.card[this.$route.params.id.toString()]],
 			getGetMethodType: function (type){
 				type=type.toString();

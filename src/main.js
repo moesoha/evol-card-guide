@@ -4,14 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-
+//import _config from '../appConfig'
+const _config=require('../appConfig');
 import data_card from '../data/card.json'
 import data_goods from '../data/goods.json'
 import data_tag from '../data/tag.json'
 import data_howToGet from '../data/howToGet.json'
 import data_task from '../data/task.json'
 
-Vue.config.productionTip = false
+Vue.config.productionTip=(process.env.NODE_ENV==='production');
 
 Vue.prototype.evol={
 	card: data_card,
@@ -52,6 +53,18 @@ data_tag.forEach(function (data,i){
 });
 Vue.prototype.evol.index.tag=index;
 index=nameIndex=null;
+
+Vue.prototype.appConfig=_config;
+
+router.afterEach(function (to){
+	// console.log(to);
+	if(process.env.NODE_ENV==='production' && window && window.gtag){
+		// console.log(_config);
+		window.gtag('config',_config.GATrackID,{
+			"page_path": to.fullPath
+		});
+	}
+});
 
 /* eslint-disable no-new */
 new Vue({
