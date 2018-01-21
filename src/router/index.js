@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Home from '@/components/home'
 import CardShow from '@/components/card/show'
 import CardSearch from '@/components/card/search'
 
