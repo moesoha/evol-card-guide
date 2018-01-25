@@ -72,7 +72,7 @@ trans={
 			table.insert(r,{
 				item=a2[1],
 				type=a2[2],
-				count=a2[3]
+				count=tonumber(a2[3])
 			})
 		end
 		return r
@@ -80,10 +80,10 @@ trans={
 	extractAttrStr=function (s)
 		a=string.split(s,":")
 		return {
-			decision=a[1],
-			creativity=a[2],
-			affinity=a[3],
-			execution=a[4]
+			decision=tonumber(a[1]),
+			creativity=tonumber(a[2]),
+			affinity=tonumber(a[3]),
+			execution=tonumber(a[4])
 		}
 	end
 }

@@ -38,8 +38,8 @@ for _,value in pairs(cardIds) do
 		name=MCardInfoData.GetNameById(value),
 		rare=trans.rare[MCardInfoData.GetRareById(value)],
 		levelLimit={
-			normal=MCardInfoData.GetLevelLimitById(value,false),
-			evolved=MCardInfoData.GetLevelLimitById(value,true)
+			normal=tonumber(MCardInfoData.GetLevelLimitById(value,false)),
+			evolved=tonumber(MCardInfoData.GetLevelLimitById(value,true))
 		},
 		type=MCardInfoData.GetTypeById(value),
 		property={ -- attract,power,IQ,EQ // from MCardInfoData.lua
