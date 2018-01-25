@@ -37,6 +37,13 @@
 						<td>{{thisCard.property.inc.affinity}}</td>
 						<td>{{thisCard.property.inc.execution}}</td>
 					</tr>
+					<tr>
+						<td>最高可达</td>
+						<td>{{thisCard.property.max.decision}}</td>
+						<td>{{thisCard.property.max.creativity}}</td>
+						<td>{{thisCard.property.max.affinity}}</td>
+						<td>{{thisCard.property.max.execution}}</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
