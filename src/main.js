@@ -6,6 +6,7 @@ import router from './router'
 
 import _config from '../appConfig'
 import _evol from './evol'
+// console.log(_evol);
 Vue.prototype.evol=_evol;
 Vue.prototype.appConfig=_config;
 
