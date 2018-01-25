@@ -161,7 +161,7 @@ export default {
 	data(){
 		// console.log(this.$route.params);
 		// console.log(this.evol);
-		console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
+		// console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
 		// console.log(this.appConfig);
 		return {
 			evol: this.evol,

@@ -8,8 +8,12 @@
 		<div id="cardsearch-result" v-if="data.length>0">
 			<div v-for="item in data">
 				<p>
-					[{{evol.card[evol.index.card[item.id.toString()]].rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
+					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
 				</p>
+				<p>
+					{{item.property.max.decision}} / {{item.property.max.creativity}} / {{item.property.max.affinity}} / {{item.property.max.execution}}
+				</p>
+				<br />
 			</div>
 		</div>
 		<div v-else>
@@ -37,6 +41,13 @@ let searchInArray=function (str,arr){
 	}else{
 		return([]);
 	}
+},getCardsDetail=function (datafield,indexfield,idfield){
+	// evol.card[evol.index.card[item.id.toString()]]
+	let a=[];
+	idfield.forEach(function (data){
+		a.push(datafield[indexfield[data.id.toString()]]);
+	});
+	return a;
 };
 
 export default {
@@ -44,12 +55,12 @@ export default {
 	data(){
 		// console.log(this.$route.params);
 		// console.log(this.evol);
-		
+		let searchResult=searchInArray(this.$route.params.q,this.evol.index.card_name);
 		return {
 			evol: this.evol,
 			q: this.$route.params.q,
 			q_last: this.$route.params.q,
-			data: searchInArray(this.$route.params.q,this.evol.index.card_name)
+			data: getCardsDetail(this.evol.card,this.evol.index.card,searchResult?searchResult:[])
 		};
 	},
 	methods: {
@@ -58,7 +69,8 @@ export default {
 				if((this.q) && (this.q.trim()!="")){
 					this.$router.replace(encodeURIComponent(this.q));
 					this.q_last=this.q;
-					this.data=searchInArray(this.q,this.evol.index.card_name);
+					let searchResult=searchInArray(this.$route.params.q,this.evol.index.card_name);
+					this.data=getCardsDetail(this.evol.card,this.evol.index.card,searchResult?searchResult:[])
 				}
 			}
 		}
