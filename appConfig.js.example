@@ -1,4 +1,5 @@
 module.exports={
 	GATrackID: "UA-123-1",
-	cardPicPath: "/card_h/"
+	cardPicPath: "/card_h/",
+	cardSmallPicPath: "/card/"
 };

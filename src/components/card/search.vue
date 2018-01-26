@@ -11,7 +11,7 @@
 					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
 				</p>
 				<p>
-					{{item.property.max.decision}} / {{item.property.max.creativity}} / {{item.property.max.affinity}} / {{item.property.max.execution}}
+					<small>决策</small> <b>{{item.property.max.decision}}</b> <small>创造</small> <b>{{item.property.max.creativity}}</b> <small>亲和</small> <b>{{item.property.max.affinity}}</b> <small>行动</small> <b>{{item.property.max.execution}}</b>
 				</p>
 				<br />
 			</div>

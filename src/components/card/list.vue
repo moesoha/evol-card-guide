@@ -15,7 +15,7 @@
 			<br />
 			<b>排序</b><br />
 			<span v-for="property,i in evol.property" v-if="property">
-				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy">
+				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="reload">
 				<label :for="'property-'+i">{{property}}</label>
 			</span>
 			<br />
@@ -23,16 +23,22 @@
 				<input type="checkbox" id="showEvolved" v-model="options.showEvolved">
 				<label for="showEvolved">显示进化后图片</label>
 			</span>
-			<br /><b>说明</b>
-			<ul>
-				<li>羁绊下方的属性值排序为“决策力 / 创造力 / 亲和力 / 行动力”</li>
-			</ul>
 		</div>
 		<hr>
 		<div v-if="isLoading">
 			<b><i>正在处理...</i></b>
 		</div>
 		<div v-else>
+			<div v-for="item in data.cardSorted">
+				<img v-if="options.showEvolved" :src="appConfig.cardSmallPicPath+item.pic.evolved+'.jpg'">
+				<img v-else :src="appConfig.cardSmallPicPath+item.pic.normal+'.jpg'">
+				<p>
+					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
+				</p>
+				<p>
+					<small>决策</small> <b>{{item.property.max.decision}}</b> <small>创造</small> <b>{{item.property.max.creativity}}</b> <small>亲和</small> <b>{{item.property.max.affinity}}</b> <small>行动</small> <b>{{item.property.max.execution}}</b>
+				</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -104,9 +110,11 @@ export default {
 		},
 		reload(){
 			let that=this;
+			this.setLoading();
 			setTimeout(function (){
 				that.loadDataByRole();
 				that.sortDataWithCardsId_sortBy();
+				that.unsetLoading();
 			},233);
 		}
 	}
