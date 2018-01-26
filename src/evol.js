@@ -58,7 +58,7 @@ data_card.forEach(function (data,i){
 	// 	propertyMaxSum: maxCardPointSum,
 	// 	pic: data_card.pic
 	// };
-	roleIndex[role][id].push(i);
+	roleIndex[role][id]=i;
 });
 evol.card=data_card;
 evol.index.card=index;
