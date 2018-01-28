@@ -84,8 +84,8 @@ trans={
 		for _,v in pairs(a1) do
 			a2=string.split(v,",")
 			table.insert(r,{
-				item=a2[1],
-				type=a2[2],
+				item=tonumber(a2[1]),
+				type=tonumber(a2[2]),
 				count=tonumber(a2[3])
 			})
 		end
