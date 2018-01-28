@@ -5,6 +5,7 @@ require("sys/Sys")
 
 require("module/MCommonConfigData")
 require("module/MTextData")
+require("module/MStaffData")
 require("module/MCardInfoData")
 require("module/MGoodsInfoData")
 require("module/MTaskInfoData")
@@ -17,10 +18,12 @@ require("module/MTextData")
 require("module/MCardEvolutionInfoData")
 require("module/MCardAdvanceInfoData")
 require("module/MCardDesignInfoData")
+require("module/MGoodsExchangeInfoData")
 JSON=assert(loadfile(officialCodeBase.."lib/JSON.lua"))()
 
 trans={
 	rare={"N","NH","R","SR","SSR"},
+	property={"decision","creativity","affinity","execution"},
 	taskType={[0]="day","night","male"},
 	textType={
 		[11]="taskDay",
@@ -99,5 +102,12 @@ trans={
 			affinity=tonumber(a[3]),
 			execution=tonumber(a[4])
 		}
+	end,
+	extractColonStrToNumberArray=function (s)
+		a=string.split(s,":")
+		for k,v in pairs(a) do
+			a[k]=tonumber(v)
+		end
+		return a
 	end
 }

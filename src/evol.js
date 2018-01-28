@@ -3,6 +3,7 @@ import data_goods from '../data/goods.json';
 import data_tag from '../data/tag.json';
 import data_howToGet from '../data/howToGet.json';
 import data_task from '../data/task.json';
+import data_staff from '../data/staff.json';
 let data_text={
 	card: require('../data/text_card.json')
 };
@@ -68,6 +69,15 @@ evol.index.card=index;
 evol.index.card_name=nameIndex;
 evol.index.card_role=roleIndex;
 
+index={},nameIndex={};
+data_staff.forEach(function (data,i){
+	let id=data.id.toString();
+	index[id]=i; // 方便快速根据card id查找
+	nameIndex[id]=data.name; // 给搜索用的
+});
+evol.staff=data_staff;
+evol.index.staff=index;
+evol.index.staff_name=nameIndex;
 
 // 下面都是将各个数据按(string)id存进object
 evol.goods={};
