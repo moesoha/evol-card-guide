@@ -6,8 +6,8 @@
 		<div id="tags">
 			<span v-for="item in thisStaff.tag" class="one-tag" :style="'background-color: '+evol.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
 		</div><br />
-		<b>雇佣</b>&nbsp;&nbsp;<span>{{thisStaff.price.hire}}</span> 调查勋章<br />
-		<b>特聘</b>&nbsp;&nbsp;<span>{{thisStaff.price.deploy}}</span> 金币<br />
+		<b>雇佣</b>&nbsp;&nbsp;<span v-if="thisStaff.price.hire>0">{{thisStaff.price.hire}} <i>调查勋章</i></span><span v-else><i>无法从人才市场获得，剧情内掉落</i></span><br />
+		<b>特聘</b>&nbsp;&nbsp;<span>{{thisStaff.price.deploy}} <i>金币</i></span><br />
 		<hr>
 		<p>
 			{{evol.text.get(thisStaff.description)}}
