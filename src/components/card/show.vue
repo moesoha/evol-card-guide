@@ -6,9 +6,9 @@
 		<p id="cardshow-maxrank">
 			<span v-for="n in thisCard.maxRank">★</span>
 		</p>
-		<h2>{{thisCard.sentence.talk}}</h2>
-		<h3 v-if="thisCard.sentence.talk!=thisCard.sentence.shout">{{thisCard.sentence.shout}}</h3>
-		<b>{{evol.tag[thisCard.tag.toString()].name}}</b> / <i>{{thisCard.sentence.tag}}</i>
+		<h2>{{evol.text.get(thisCard.sentence.talk)}}</h2>
+		<h3 v-if="evol.text.get(thisCard.sentence.talk)!=evol.text.get(thisCard.sentence.shout)">{{evol.text.get(thisCard.sentence.shout)}}</h3>
+		<b>{{evol.tag[thisCard.tag.toString()].name}}</b> / <i>{{evol.text.get(thisCard.sentence.tag)}}</i>
 		<div id="cardshow-property">
 			<hr>
 			<h3>属性</h3>

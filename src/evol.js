@@ -3,6 +3,9 @@ import data_goods from '../data/goods.json';
 import data_tag from '../data/tag.json';
 import data_howToGet from '../data/howToGet.json';
 import data_task from '../data/task.json';
+let data_text={
+	card: require('../data/text_card.json')
+};
 
 let evol={
 	howToGet: data_howToGet,
@@ -81,6 +84,39 @@ evol.tag={};
 data_tag.forEach(function (data,i){
 	evol.tag[data.id.toString()]=data;
 });
+
+evol.text={
+	get(id){
+		let textType={ // same as `etc/load.lua`>trans.textType
+			"11": "taskDay",
+			"12": "taskNight",
+			"13": "taskMale",
+			"14": "investigate",
+			"18": "taskSpecial",
+			// "20": "", -- 20 is unknown, maybe for test
+			"21": "taskDayComment",
+			"22": "taskNightComment",
+			"23": "taskMaleComment",
+			"28": "taskSpecialComment",
+			"30": "card",
+			"31": "expert",
+		};
+		let type=id.toString().substr(0,2);
+		if(textType.hasOwnProperty(type) && this.hasOwnProperty(textType[type])){
+			return this[textType[type]][id.toString()];
+		}else{
+			return id+"'s type unknown.";
+		}
+	}
+};
+for(var key in data_text){
+	if(data_text.hasOwnProperty){
+		evol.text[key]={};
+		data_text[key].forEach(function (data,i){
+			evol.text[key][data.id.toString()]=data.text;
+		});
+	}
+}
 
 index=roleIndex=nameIndex=null;
 
