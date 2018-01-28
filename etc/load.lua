@@ -22,6 +22,20 @@ JSON=assert(loadfile(officialCodeBase.."lib/JSON.lua"))()
 trans={
 	rare={"N","NH","R","SR","SSR"},
 	taskType={[0]="day","night","male"},
+	textType={
+		[11]="taskDay",
+		[12]="taskNight",
+		[13]="taskMale",
+		[14]="investigate",
+		[18]="taskSpecial",
+		-- [20]="", -- 20 is unknown, maybe for test
+		[21]="taskDayComment",
+		[22]="taskNightComment",
+		[23]="taskMaleComment",
+		[28]="taskSpecialComment",
+		[30]="card",
+		[31]="expert",
+	},
 	howToGet=function (s)
 		local getMethod={[0]="special","coin_lottery","diamond_lottery","map","star_exchange","composite",[30]="许愿兑换",[31]="交易所"}
 		local a=string.split(s,':')
