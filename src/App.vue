@@ -24,4 +24,11 @@ export default {
 	footer a{
 		text-decoration: none;
 	}
+
+	.one-tag {
+		color: white;
+		font-weight: bold;
+		padding: 0.25em 0.5em;
+		margin: 0 0.32em;
+	}
 </style>

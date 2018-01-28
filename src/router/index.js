@@ -4,6 +4,8 @@ import Home from '@/components/home'
 import CardShow from '@/components/card/show'
 import CardSearch from '@/components/card/search'
 import CardList from '@/components/card/list'
+import StaffShow from '@/components/staff/show'
+import StaffList from '@/components/staff/list'
 
 Vue.use(Router)
 
@@ -24,5 +26,13 @@ export default new Router({
 		path: '/card/list',
 		name: 'CardList',
 		component: CardList
+	},{
+		path: '/staff/show/:id',
+		name: 'StaffShow',
+		component: StaffShow
+	},{
+		path: '/staff/list',
+		name: 'StaffList',
+		component: StaffList
 	}]
 })
