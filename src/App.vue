@@ -2,7 +2,7 @@
 	<div id="app">
 		<div>
 			<p>
-				<router-link to="/">主页</router-link> | 羁绊 <router-link to="/card/list">列表</router-link>
+				<router-link to="/">主页</router-link> | 羁绊 <router-link to="/card/list">列表</router-link> | <router-link to="/staff/list">专家</router-link>
 			</p>
 		</div>
 		<hr>
