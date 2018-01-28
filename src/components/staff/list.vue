@@ -23,6 +23,7 @@
 			</details>
 			<br />
 			<button v-on:click="reload">确认</button>
+			<br /><p><small><a href="https://github.com/moesoha/evol-card-guide/issues/1">为什么没有专家的图片？</a></small></p>
 			<!-- <b>排序</b><br />
 			<span v-for="property,i in evol.property" v-if="property">
 				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="reload">
@@ -110,7 +111,7 @@ export default {
 					property.push(key);
 				}
 			}
-			console.log(property,tag);
+			// console.log(property,tag);
 			let staffs=[];
 			_.filter(this.evol.staff,function (o){
 				return inArray(property,o.property);
@@ -121,11 +122,11 @@ export default {
 					}
 				}
 				
-				console.log(data.id,data.name,data.property,data.tag)
+				// console.log(data.id,data.name,data.property,data.tag)
 				staffs.push(that.evol.index.staff[data.id]);
 			});
 			this.data.staffId=staffs;
-			console.log(this.data.staffId)
+			// console.log(this.data.staffId)
 		},
 		reload(){
 			let that=this;

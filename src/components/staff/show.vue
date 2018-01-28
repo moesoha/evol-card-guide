@@ -30,7 +30,7 @@ export default {
 	data(){
 		let that=this;
 		let thisStaff=this.evol.staff[this.evol.index.staff[this.$route.params.id.toString()]];
-		console.log(thisStaff);
+		// console.log(thisStaff);
 		// let tag=[];
 		// thisStaff.tag.forEach(function (value,i){
 		// 	tag.push(that.evol.tag[value.toString()]);
