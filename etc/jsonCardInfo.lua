@@ -54,9 +54,9 @@ for _,value in pairs(cardIds) do
 		composition={},
 		tag=MCardInfoData.GetFriendTagById(value),
 		sentence={
-			tag=MTextData.GetText(MCardInfoData.GetFriendTagDescById(value)),
-			talk=MTextData.GetText(MCardInfoData.GetFriendDescById(value)),
-			shout=MTextData.GetText(MCardInfoData.GetFriendShoutById(value))
+			tag=MCardInfoData.GetFriendTagDescById(value),
+			talk=MCardInfoData.GetFriendDescById(value),
+			shout=MCardInfoData.GetFriendShoutById(value)
 		},
 		pic={
 			normal=card_info_data.data[value].card_icon,
