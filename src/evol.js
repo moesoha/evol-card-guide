@@ -25,7 +25,7 @@ let evol={
 	methods: []
 };
 
-// 本来想用WebSQL，主要还是担心compatibility，顺便心疼用户内存
+// 本来想用WebSQL，主要还是担心compatibility
 let index={},nameIndex={};
 let roleIndex=[null,{},{},{},{}];
 // let propertyIndex={};
@@ -65,26 +65,22 @@ evol.index.card=index;
 evol.index.card_name=nameIndex;
 evol.index.card_role=roleIndex;
 
-index={};
+
+// 下面都是将各个数据按(string)id存进object
+evol.goods={};
 data_goods.forEach(function (data,i){
-	index[data.id.toString()]=i; // 方便快速根据道具id查找
+	evol.goods[data.id.toString()]=data;
 });
-evol.goods=data_goods;
-evol.index.goods=index;
 
-index={};
+evol.task={};
 data_task.forEach(function (data,i){
-	index[data.id.toString()]=i; // 方便快速根据关卡任务id查找
+	evol.task[data.id.toString()]=data;
 });
-evol.task=data_task;
-evol.index.task=index;
 
-index={};
+evol.tag={};
 data_tag.forEach(function (data,i){
-	index[data.id.toString()]=i; // 方便快速根据标签id查找
+	evol.tag[data.id.toString()]=data;
 });
-evol.tag=data_tag;
-evol.index.tag=index;
 
 index=roleIndex=nameIndex=null;
 

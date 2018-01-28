@@ -8,7 +8,7 @@
 		</p>
 		<h2>{{thisCard.sentence.talk}}</h2>
 		<h3 v-if="thisCard.sentence.talk!=thisCard.sentence.shout">{{thisCard.sentence.shout}}</h3>
-		<b>{{evol.tag[evol.index.tag[thisCard.tag]].name}}</b> / <i>{{thisCard.sentence.tag}}</i>
+		<b>{{evol.tag[thisCard.tag.toString()].name}}</b> / <i>{{thisCard.sentence.tag}}</i>
 		<div id="cardshow-property">
 			<hr>
 			<h3>属性</h3>
@@ -75,16 +75,16 @@
 					<span v-if="item.type!=3">{{getGetMethodType(item.type)}}</span>
 					<span v-if="item.value.toString()!=0">
 						<span v-if="item.type==3">
-							<span v-if="evol.task[evol.index.task[item.value.toString()]].type=='day'">
+							<span v-if="evol.task[item.value.toString()].type=='day'">
 								普通关卡
 							</span>
-							<span v-if="evol.task[evol.index.task[item.value.toString()]].type=='night'">
+							<span v-if="evol.task[item.value.toString()].type=='night'">
 								精英关卡
 							</span>
-							<span v-if="evol.task[evol.index.task[item.value.toString()]].type=='male'">
-								{{evol.role[evol.task[evol.index.task[item.value.toString()]].role]}}副本
+							<span v-if="evol.task[item.value.toString()].type=='male'">
+								{{evol.role[evol.task[item.value.toString()].role]}}副本
 							</span>
-							{{evol.task[evol.index.task[item.value.toString()]].stringid}} {{evol.task[evol.index.task[item.value.toString()]].name}}
+							{{evol.task[item.value.toString()].stringid}} {{evol.task[item.value.toString()].name}}
 						</span>
 						<span v-else>{{item.value}}</span>
 					</span>
@@ -99,7 +99,7 @@
 					<span v-for="n in item.currentRank">★</span> ► <span v-for="n in item.currentRank+1">★</span>
 					(LV {{item.level}})&nbsp;&nbsp;&nbsp;
 					<span v-for="value in item.price">
-						{{evol.goods[evol.index.goods[value.item]].name}}x{{value.count}}
+						{{evol.goods[value.item.toString()].name}}x{{value.count}}
 					</span>
 				</p>
 			</div>
@@ -111,7 +111,7 @@
 			<div>
 				<p>
 					<span v-for="item in thisCard.price.evolution">
-						{{evol.goods[evol.index.goods[item.item]].name}}x{{item.count}} &nbsp;
+						{{evol.goods[item.item.toString()].name}}x{{item.count}} &nbsp;
 					</span>
 				</p>
 			</div>
@@ -131,7 +131,7 @@
 			<div>
 				<p>
 					<span v-for="item in thisCard.composition.price">
-						{{evol.goods[evol.index.goods[item.item]].name}}x{{item.count}} &nbsp;
+						{{evol.goods[item.item.toString()].name}}x{{item.count}} &nbsp;
 					</span>
 				</p>
 			</div>
@@ -149,7 +149,7 @@
 			</div>
 			<div v-if="thisCard.rewards.resolve">
 				<h4>流逝</h4>
-				<p v-for="item in thisCard.rewards.resolve">{{evol.goods[evol.index.goods[item.item]].name}}x{{item.count}}</p>
+				<p v-for="item in thisCard.rewards.resolve">{{evol.goods[item.item.toString()].name}}x{{item.count}}</p>
 			</div>
 		</div>
 	</div>
