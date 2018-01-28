@@ -5,7 +5,8 @@ import data_howToGet from '../data/howToGet.json';
 import data_task from '../data/task.json';
 import data_staff from '../data/staff.json';
 let data_text={
-	card: require('../data/text_card.json')
+	card: require('../data/text_card.json'),
+	staff: require('../data/text_staff.json')
 };
 
 let evol={
@@ -26,6 +27,15 @@ let evol={
 		"affinity": "亲和力",
 		"execution": "行动力"
 	},
+	color: [
+		null,
+		"#94b5e6",
+		"#84bdb5",
+		"#ff9088",
+		"#afa7e0",
+		"#ff92a2",
+		"#ffb379"
+	],
 	methods: []
 };
 
@@ -109,7 +119,7 @@ evol.text={
 			"23": "taskMaleComment",
 			"28": "taskSpecialComment",
 			"30": "card",
-			"31": "expert",
+			"31": "staff",
 		};
 		let type=id.toString().substr(0,2);
 		if(textType.hasOwnProperty(type) && this.hasOwnProperty(textType[type])){
