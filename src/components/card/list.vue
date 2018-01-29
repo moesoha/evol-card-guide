@@ -30,8 +30,7 @@
 		</div>
 		<div v-else>
 			<div v-for="item in data.cardSorted">
-				<img v-if="options.showEvolved" :src="appConfig.cardSmallPicPath+item.pic.evolved+'.jpg'">
-				<img v-else :src="appConfig.cardSmallPicPath+item.pic.normal+'.jpg'">
+				<img :src="appConfig.cardSmallPicPath+(options.showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
 				<p>
 					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
 				</p>

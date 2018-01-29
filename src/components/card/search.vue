@@ -3,10 +3,15 @@
 		<div id="cardsearch-form">
 			<input type="text" v-on:keyup.enter="search" v-model="q">
 			<button v-on:click="search">搜索</button>
+			<span id="other-options">
+				<input type="checkbox" id="showEvolved" v-model="showEvolved">
+				<label for="showEvolved">显示进化后图片</label>
+			</span>
 		</div>
 		<hr>
 		<div id="cardsearch-result" v-if="data.length>0">
 			<div v-for="item in data">
+				<img :src="appConfig.cardSmallPicPath+(showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
 				<p>
 					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
 				</p>
@@ -60,6 +65,7 @@ export default {
 			evol: this.evol,
 			q: this.$route.params.q,
 			q_last: this.$route.params.q,
+			showEvolved: false,
 			data: getCardsDetail(this.evol.card,this.evol.index.card,searchResult?searchResult:[])
 		};
 	},
