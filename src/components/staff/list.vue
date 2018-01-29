@@ -111,22 +111,27 @@ export default {
 					property.push(key);
 				}
 			}
-			// console.log(property,tag);
 			let staffs=[];
+			let tagTypeCount=_.countBy(tag,function (i){
+				return i.toString()[0];
+			});
 			_.filter(this.evol.staff,function (o){
 				return inArray(property,o.property);
 			}).forEach(function (data,index){
 				if(tag.length>0){
-					if((_.intersection(data.tag,tag)).length==0 && (_.intersection(data.ability,tag)).length==0){
-						return;
+					let i_t=_.intersection(data.tag,tag).length==0;
+					let i_a=_.intersection(data.ability,tag).length==0;
+					if(i_t && i_a){
+						return;// 过滤完全不符合
+					}
+					if(tagTypeCount['1'] && tagTypeCount['2'] && (i_t || i_a)){
+						return;// ability和tag之间的&&关系
 					}
 				}
 				
-				// console.log(data.id,data.name,data.property,data.tag)
 				staffs.push(that.evol.index.staff[data.id]);
 			});
 			this.data.staffId=staffs;
-			// console.log(this.data.staffId)
 		},
 		reload(){
 			let that=this;
@@ -134,7 +139,7 @@ export default {
 			setTimeout(function (){
 				that.hitStaff();
 				that.unsetLoading();
-			},233);
+			},66);
 		}
 	}
 }
