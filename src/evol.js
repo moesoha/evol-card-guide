@@ -21,6 +21,13 @@ let evol={
 		"周棋洛",
 		"白起"
 	],
+	rare: [
+		"N",
+		"NH",
+		"R",
+		"SR",
+		"SSR"
+	],
 	property: {
 		"decision": "决策力",
 		"creativity": "创造力",

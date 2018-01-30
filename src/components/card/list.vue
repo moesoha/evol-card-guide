@@ -3,7 +3,7 @@
 		<div id="list-options">
 			<b>角色</b><br />
 			<span v-for="role,i in evol.role" v-if="role">
-				<input type="checkbox" :id="'role-'+i" v-model="options.role[i]" v-on:click="reload">
+				<input type="checkbox" :id="'role-'+i" v-model="options.role[i]" v-on:click="">
 				<label :for="'role-'+i">{{role}}</label>
 			</span>
 			<!-- <br />
@@ -15,14 +15,25 @@
 			<br />
 			<b>排序</b><br />
 			<span v-for="property,i in evol.property" v-if="property">
-				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="reload">
+				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="">
 				<label :for="'property-'+i">{{property}}</label>
 			</span>
 			<br />
-			<span id="other-options">
-				<input type="checkbox" id="showEvolved" v-model="options.showEvolved">
-				<label for="showEvolved">显示进化后图片</label>
+			<b>稀有度</b><br />
+			<span v-for="rare,i in evol.rare" v-if="rare">
+				<input type="checkbox" :id="'rare-'+i" v-model="options.rare[i]" v-on:click="">
+				<label :for="'rare-'+i">{{rare}}</label>
 			</span>
+			<br />
+			<span id="other-options">
+				<input type="checkbox" id="showCannotGet" v-model="options.showCardCannotGet">
+				<label for="showEvolved">显示“暂无来源”</label><br />
+				<button v-on:click="reload">筛选!</button>
+				<br />
+
+				<input type="checkbox" id="showEvolved" v-model="options.showEvolved">
+				<label for="showEvolved">显示进化后图片</label><br />
+			</span><br />
 		</div>
 		<hr>
 		<div v-if="isLoading">
@@ -53,6 +64,13 @@ let _defaultOptions={
 		true,
 		true
 	],
+	rare: [
+		null,
+		null,
+		true,
+		true,
+		true
+	],
 	sort: { // 综合多个指数进行排序，暂时没想好怎么搞，先留着
 		decision: true,
 		creativity: true,
@@ -60,6 +78,7 @@ let _defaultOptions={
 		execution: true
 	},
 	showEvolved: false,
+	showCardCannotGet: false,
 	sortBy: "affinity" // 值看上面
 };
 
@@ -86,22 +105,24 @@ export default {
 		unsetLoading(){
 			this.isLoading=false;
 		},
-		loadDataByRole(){
-			let a=[],that=this;
-			this.options.role.forEach(function (v,i){
-				if(v){
-					// console.log(i,v);
-					a=_.concat(a,_.values(that.evol.index.card_role[i]));
-				}
-			});
-			// console.log(a);
-			this.data.cardsId=a;
-		},
 		sortDataWithCardsId_sortBy(){
 			let key=this.options.sortBy,that=this;
 			let dataFields=[];
-			this.data.cardsId.forEach(function (v){
-				dataFields.push(that.evol.card[v]);
+			let roleFilter=[],rareFilter=[];
+			this.options.role.forEach(function (v,i){
+				if(v){
+					roleFilter.push(i);
+				}
+			});
+			this.options.rare.forEach(function (v,i){
+				if(v){
+					rareFilter.push(that.evol.rare[i]);
+				}
+			});
+			_.filter(this.evol.card,function (o){
+				return ((_.indexOf(roleFilter,o.role))!=-1)&&((_.indexOf(rareFilter,o.rare))!=-1)&&(that.options.showCardCannotGet||(o.howToGet[0].value!="暂无来源"));
+			}).forEach(function (v){
+				dataFields.push(v);
 			});
 			dataFields=_.reverse(_.sortBy(dataFields,['property.max.'+key]));
 			
@@ -111,7 +132,6 @@ export default {
 			let that=this;
 			this.setLoading();
 			setTimeout(function (){
-				that.loadDataByRole();
 				that.sortDataWithCardsId_sortBy();
 				that.unsetLoading();
 			},233);
