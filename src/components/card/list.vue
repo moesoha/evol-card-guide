@@ -30,10 +30,10 @@
 				<label for="showEvolved">显示“暂无来源”</label><br />
 				<button v-on:click="reload">筛选!</button>
 				<br />
-
+				<br />
 				<input type="checkbox" id="showEvolved" v-model="options.showEvolved">
 				<label for="showEvolved">显示进化后图片</label><br />
-			</span><br />
+			</span>
 		</div>
 		<hr>
 		<div v-if="isLoading">
