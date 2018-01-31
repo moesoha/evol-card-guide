@@ -4,10 +4,15 @@ import data_item from '../data/item.json';
 import data_tag from '../data/tag.json';
 import data_howToGet from '../data/howToGet.json';
 import data_task from '../data/task.json';
+import data_taskEvent from '../data/taskEvent.json';
 import data_staff from '../data/staff.json';
 let data_text={
 	card: require('../data/text_card.json'),
-	staff: require('../data/text_staff.json')
+	staff: require('../data/text_staff.json'),
+	taskDay: require('../data/text_taskDay.json'),
+	taskNight: require('../data/text_taskNight.json'),
+	taskMale: require('../data/text_taskMale.json'),
+	taskSpecial: require('../data/text_taskSpecial.json')
 };
 
 let evol={
@@ -21,7 +26,8 @@ let evol={
 			"李泽言",
 			"许墨",
 			"周棋洛",
-			"白起"
+			"白起",
+			"其他NPC"
 		],
 		rare: [
 			"N",
@@ -160,6 +166,11 @@ evol.goods.get=function ({type,item}){
 evol.tag={};
 data_tag.forEach(function (data,i){
 	evol.tag[data.id.toString()]=data;
+});
+
+evol.taskEvent={};
+data_taskEvent.forEach(function (data,i){
+	evol.taskEvent[data.id.toString()]=data;
 });
 
 evol.text={
