@@ -44,6 +44,34 @@ let evol={
 			"#ff92a2",
 			"#ffb379"
 		],
+		task: {
+			"day": "普通关卡",
+			"night": "精英关卡",
+			"male": "副本",
+			"special": "活动关卡",
+		}
+	},
+	type: {
+		text: { // same as `etc/load.lua`>trans.textType
+			"11": "taskDay",
+			"12": "taskNight",
+			"13": "taskMale",
+			"14": "investigate",
+			"18": "taskSpecial",
+			// "20": "", -- 20 is unknown, maybe for test
+			"21": "taskDayComment",
+			"22": "taskNightComment",
+			"23": "taskMaleComment",
+			"28": "taskSpecialComment",
+			"30": "card",
+			"31": "staff",
+		},
+		task: {
+			"1": "day",
+			"2": "night",
+			"3": "male",
+			"8": "special"
+		}
 	},
 	methods: []
 };
@@ -98,15 +126,20 @@ evol.staff=data_staff;
 evol.index.staff=index;
 evol.index.staff_name=nameIndex;
 
+index={},nameIndex={};
+data_task.forEach(function (data,i){
+	let id=data.id.toString();
+	index[id]=i; // 方便快速根据card id查找
+	nameIndex[id]=data.name; // 给搜索用的
+});
+evol.task=data_task;
+evol.index.task=index;
+evol.index.task_name=nameIndex;
+
 // 下面都是将各个数据按(string)id存进object
 evol.goods={};
 data_goods.forEach(function (data,i){
 	evol.goods[data.id.toString()]=data;
-});
-
-evol.task={};
-data_task.forEach(function (data,i){
-	evol.task[data.id.toString()]=data;
 });
 
 evol.tag={};
@@ -116,20 +149,7 @@ data_tag.forEach(function (data,i){
 
 evol.text={
 	get(id){
-		let textType={ // same as `etc/load.lua`>trans.textType
-			"11": "taskDay",
-			"12": "taskNight",
-			"13": "taskMale",
-			"14": "investigate",
-			"18": "taskSpecial",
-			// "20": "", -- 20 is unknown, maybe for test
-			"21": "taskDayComment",
-			"22": "taskNightComment",
-			"23": "taskMaleComment",
-			"28": "taskSpecialComment",
-			"30": "card",
-			"31": "staff",
-		};
+		let textType=evol.type.text;
 		let type=id.toString().substr(0,2);
 		if(textType.hasOwnProperty(type) && this.hasOwnProperty(textType[type])){
 			return this[textType[type]][id.toString()];
