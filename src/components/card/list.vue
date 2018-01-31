@@ -2,25 +2,25 @@
 	<div>
 		<div id="list-options">
 			<b>角色</b><br />
-			<span v-for="role,i in evol.role" v-if="role">
+			<span v-for="role,i in evol.trans.role" v-if="role">
 				<input type="checkbox" :id="'role-'+i" v-model="options.role[i]" v-on:click="">
 				<label :for="'role-'+i">{{role}}</label>
 			</span>
 			<!-- <br />
 			<b>排序</b><br />
-			<span v-for="property,i in evol.property" v-if="property">
+			<span v-for="property,i in evol.trans.property" v-if="property">
 				<input type="checkbox" :id="'property-'+i" v-model="options.sort[i]">
 				<label :for="'property-'+i">{{property}}</label>
 			</span> -->
 			<br />
 			<b>排序</b><br />
-			<span v-for="property,i in evol.property" v-if="property">
+			<span v-for="property,i in evol.trans.property" v-if="property">
 				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="">
 				<label :for="'property-'+i">{{property}}</label>
 			</span>
 			<br />
 			<b>稀有度</b><br />
-			<span v-for="rare,i in evol.rare" v-if="rare">
+			<span v-for="rare,i in evol.trans.rare" v-if="rare">
 				<input type="checkbox" :id="'rare-'+i" v-model="options.rare[i]" v-on:click="">
 				<label :for="'rare-'+i">{{rare}}</label>
 			</span>
@@ -116,7 +116,7 @@ export default {
 			});
 			this.options.rare.forEach(function (v,i){
 				if(v){
-					rareFilter.push(that.evol.rare[i]);
+					rareFilter.push(that.evol.trans.rare[i]);
 				}
 			});
 			_.filter(this.evol.card,function (o){

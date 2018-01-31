@@ -82,7 +82,7 @@
 								精英关卡
 							</span>
 							<span v-if="evol.task[item.value.toString()].type=='male'">
-								{{evol.role[evol.task[item.value.toString()].role]}}副本
+								{{evol.trans.role[evol.task[item.value.toString()].role]}}副本
 							</span>
 							{{evol.task[item.value.toString()].stringid}} {{evol.task[item.value.toString()].name}}
 						</span>

@@ -14,35 +14,37 @@ let evol={
 	index: {
 		rich: {}
 	},
-	role: [
-		null,
-		"李泽言",
-		"许墨",
-		"周棋洛",
-		"白起"
-	],
-	rare: [
-		"N",
-		"NH",
-		"R",
-		"SR",
-		"SSR"
-	],
-	property: {
-		"decision": "决策力",
-		"creativity": "创造力",
-		"affinity": "亲和力",
-		"execution": "行动力"
+	trans: {
+		role: [
+			null,
+			"李泽言",
+			"许墨",
+			"周棋洛",
+			"白起"
+		],
+		rare: [
+			"N",
+			"NH",
+			"R",
+			"SR",
+			"SSR"
+		],
+		property: {
+			"decision": "决策力",
+			"creativity": "创造力",
+			"affinity": "亲和力",
+			"execution": "行动力"
+		},
+		color: [
+			null,
+			"#94b5e6",
+			"#84bdb5",
+			"#ff9088",
+			"#afa7e0",
+			"#ff92a2",
+			"#ffb379"
+		],
 	},
-	color: [
-		null,
-		"#94b5e6",
-		"#84bdb5",
-		"#ff9088",
-		"#afa7e0",
-		"#ff92a2",
-		"#ffb379"
-	],
 	methods: []
 };
 

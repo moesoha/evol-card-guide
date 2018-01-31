@@ -2,7 +2,7 @@
 	<div>
 		<div id="list-options">
 			<b>属性</b><br />
-			<span v-for="item,key in evol.property" v-if="item">
+			<span v-for="item,key in evol.trans.property" v-if="item">
 				<input type="checkbox" :id="'property-'+key" v-model="options.property[key]">
 				<label :for="'property-'+key">{{item}}</label>
 			</span>
@@ -18,14 +18,14 @@
 				<summary>标签</summary>
 				<span v-for="tag in evol.tag" v-if="tag.id.toString()[0]=='2'">
 					<input type="checkbox" :id="'tag-'+tag.id" :data-tag-id="tag.id" v-on:click="checkTag">
-					<label :for="'tag-'+tag.id" :style="'color: '+evol.color[tag.icon]">{{tag.name}}</label>
+					<label :for="'tag-'+tag.id" :style="'color: '+evol.trans.color[tag.icon]">{{tag.name}}</label>
 				</span>
 			</details>
 			<br />
 			<button v-on:click="reload">确认</button>
 			<br /><p><small><a href="https://github.com/moesoha/evol-card-guide/issues/1">为什么没有专家的图片？</a></small></p>
 			<!-- <b>排序</b><br />
-			<span v-for="property,i in evol.property" v-if="property">
+			<span v-for="property,i in evol.trans.property" v-if="property">
 				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="reload">
 				<label :for="'property-'+i">{{property}}</label>
 			</span>
@@ -38,10 +38,10 @@
 		<div v-else>
 			<div v-for="item in data.staffId">
 				<h3><router-link :to="'/staff/show/'+evol.staff[item].id">{{evol.staff[item].name}}</router-link></h3>
-				<b>{{evol.property[evol.staff[item].property]}} <span v-for="a in evol.staff[item].ability">/ {{evol.tag[a].name}} </span></b>
+				<b>{{evol.trans.property[evol.staff[item].property]}} <span v-for="a in evol.staff[item].ability">/ {{evol.tag[a].name}} </span></b>
 				<br /><br />
 				<div id="tags">
-					<span v-for="item in evol.staff[item].tag" class="one-tag" :style="'background-color: '+evol.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
+					<span v-for="item in evol.staff[item].tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
 				</div><br />
 			</div>
 		</div>

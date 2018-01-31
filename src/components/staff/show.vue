@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<h1>[专家] {{ thisStaff.name }}</h1>
-		<h3>{{evol.property[thisStaff.property]}}</h3>
+		<h3>{{evol.trans.property[thisStaff.property]}}</h3>
 		<h4>{{str.ability}}</h4>
 		<div id="tags">
-			<span v-for="item in thisStaff.tag" class="one-tag" :style="'background-color: '+evol.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
+			<span v-for="item in thisStaff.tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
 		</div><br />
 		<b>雇佣</b>&nbsp;&nbsp;<span v-if="thisStaff.price.hire>0">{{thisStaff.price.hire}} <i>调查勋章</i></span><span v-else><i>无法从人才市场获得，剧情内掉落</i></span><br />
 		<b>特聘</b>&nbsp;&nbsp;<span>{{thisStaff.price.deploy}} <i>金币</i></span><br />
