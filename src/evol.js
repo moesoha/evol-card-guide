@@ -1,5 +1,6 @@
 import data_card from '../data/card.json';
 import data_goods from '../data/goods.json';
+import data_item from '../data/item.json';
 import data_tag from '../data/tag.json';
 import data_howToGet from '../data/howToGet.json';
 import data_task from '../data/task.json';
@@ -141,6 +142,20 @@ evol.goods={};
 data_goods.forEach(function (data,i){
 	evol.goods[data.id.toString()]=data;
 });
+evol.goods.item={};
+data_item.forEach(function (data,i){
+	evol.goods.item[data.id.toString()]=data;
+});
+evol.goods.get=function ({type,item}){
+	switch(parseInt(item)){
+		case 0:
+			return this.item[type.toString()];
+			break;
+		default:
+			return this[item.toString()];
+			break;
+	}
+};
 
 evol.tag={};
 data_tag.forEach(function (data,i){
@@ -168,5 +183,9 @@ for(var key in data_text){
 }
 
 index=roleIndex=nameIndex=null;
+
+if(window){
+	window.evol=evol;
+}
 
 export default evol;
