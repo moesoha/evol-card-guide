@@ -28,28 +28,33 @@
 			<span id="other-options">
 				<input type="checkbox" id="showCannotGet" v-model="options.showCardCannotGet">
 				<label for="showEvolved">显示“暂无来源”</label><br />
-				<button v-on:click="reload">筛选!</button>
-				<br />
-				<br />
 				<input type="checkbox" id="showEvolved" v-model="options.showEvolved">
 				<label for="showEvolved">显示进化后图片</label><br />
+				<button v-on:click="reload">筛选!</button>
+				<br />
+				<input type="text" placeholder="在结果中查找" v-model="filterInResults" />
+				<br />
 			</span>
 		</div>
 		<hr>
 		<div v-if="isLoading">
 			<b><i>正在处理...</i></b>
 		</div>
-		<div v-else>
-			<div v-for="item in data.cardSorted">
-				<img :src="appConfig.cardSmallPicPath+(options.showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
-				<p>
-					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
-				</p>
-				<p>
-					<small>决策</small> <b>{{item.property.max.decision}}</b> <small>创造</small> <b>{{item.property.max.creativity}}</b> <small>亲和</small> <b>{{item.property.max.affinity}}</b> <small>行动</small> <b>{{item.property.max.execution}}</b>
-				</p>
-			</div>
-		</div>
+		<table border="0" v-else>
+			<tr v-for="cardGroup in data.cardSortedGroups">
+				<td v-for="item in cardGroup">
+					<img :src="appConfig.cardSmallPicPath+(options.showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
+					<p>
+						[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
+					</p>
+					<p>
+						<small>决策</small> <b>{{item.property.max.decision}}</b> <small>创造</small> <b>{{item.property.max.creativity}}</b>
+						<br />
+						<small>亲和</small> <b>{{item.property.max.affinity}}</b> <small>行动</small> <b>{{item.property.max.execution}}</b>
+					</p>
+				</td>
+			</tr>
+		</table>
 	</div>
 </template>
 
@@ -57,6 +62,7 @@
 import _ from "lodash";
 
 let _defaultOptions={
+	numPerLine: 2,
 	role: [
 		null,
 		true,
@@ -90,13 +96,24 @@ export default {
 			appConfig: this.appConfig,
 			isLoading: true,
 			options: _defaultOptions,
+			filterInResults: "",
+			filterInResultsExecute: false,
 			data: {
-				cardsId: []
+				cardsId: [],
+				ungrouped: [],
+				cardSortedGroups: []
 			}
+		}
+	},
+	watch: {
+		filterInResults(newer,older){
+			let that=this;
+			this.filterInResultsDash();
 		}
 	},
 	mounted(){
 		this.reload();
+		// this.sortDataWithCardsId_sortBy();
 	},
 	methods: {
 		setLoading(){
@@ -105,6 +122,19 @@ export default {
 		unsetLoading(){
 			this.isLoading=false;
 		},
+		filterInResultsDash: _.debounce(function (){
+			if(this.filterInResults.trim()==""){
+				this.filterInResultsExecute=false;
+			}else{
+				this.filterInResultsExecute=this.filterInResults.trim();
+			}
+			let filterInResultsExecute=this.filterInResultsExecute;
+			this.data.cardSortedGroups=_.chunk(_.filter(this.data.ungrouped,function (o){
+				return(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0);
+			}),this.options.numPerLine);
+			console.log(this.data.cardSortedGroups);
+			// this.sortDataWithCardsId_sortBy();
+		},666),
 		sortDataWithCardsId_sortBy(){
 			let key=this.options.sortBy,that=this;
 			let dataFields=[];
@@ -120,13 +150,15 @@ export default {
 				}
 			});
 			_.filter(this.evol.card,function (o){
-				return ((_.indexOf(roleFilter,o.role))!=-1)&&((_.indexOf(rareFilter,o.rare))!=-1)&&(that.options.showCardCannotGet||(o.howToGet[0].value!="暂无来源"));
+				return (((_.indexOf(roleFilter,o.role))!=-1)&&((_.indexOf(rareFilter,o.rare))!=-1)&&(that.options.showCardCannotGet||(o.howToGet[0].value!="暂无来源")))&&(!that.filterInResultsExecute||o.name.indexOf(that.filterInResultsExecute)>=0);
 			}).forEach(function (v){
 				dataFields.push(v);
 			});
 			dataFields=_.reverse(_.sortBy(dataFields,['property.max.'+key]));
+			this.data.ungrouped=_.cloneDeep(dataFields);
+			dataFields=_.chunk(dataFields,this.options.numPerLine);
 			
-			this.data.cardSorted=dataFields;
+			this.data.cardSortedGroups=dataFields;
 		},
 		reload(){
 			let that=this;
@@ -134,7 +166,7 @@ export default {
 			setTimeout(function (){
 				that.sortDataWithCardsId_sortBy();
 				that.unsetLoading();
-			},233);
+			},66);
 		}
 	}
 }
