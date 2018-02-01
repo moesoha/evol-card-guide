@@ -80,7 +80,7 @@ export default {
 		return {
 			evol: this.evol,
 			appConfig: this.appConfig,
-			isLoading: true,
+			isLoading: false,
 			data: {
 				task: {}
 			}
@@ -88,11 +88,11 @@ export default {
 	},
 	mounted(){
 		let that=this;
-		this.setLoading();
+		// this.setLoading();
 		this.loadData();
-		setTimeout(function (){
-			that.unsetLoading(); // 加载所有关卡数据会因为数据量大而卡顿，这里用点奇怪的方法提高用户体验 // 这里的问题是上面那个注释掉的垃圾代码引起的，原因写在了上面某个div边上
-		},66);
+		// setTimeout(function (){
+		// 	that.unsetLoading(); // 加载所有关卡数据会因为数据量大而卡顿，这里用点奇怪的方法提高用户体验 // 这里的问题是上面那个注释掉的垃圾代码引起的，原因写在了上面某个div边上
+		// },66);
 	},
 	methods: {
 		setLoading(){
