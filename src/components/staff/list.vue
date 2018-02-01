@@ -36,12 +36,14 @@
 			<b><i>正在处理...</i></b>
 		</div>
 		<div v-else>
-			<div v-for="item in data.staffId">
-				<h3><router-link :to="'/staff/show/'+evol.staff[item].id">{{evol.staff[item].name}}</router-link></h3>
-				<b>{{evol.trans.property[evol.staff[item].property]}} <span v-for="a in evol.staff[item].ability">/ {{evol.tag[a].name}} </span></b>
+			<input type="text" placeholder="在结果中查找" v-model="filterInResults" /><br />
+			<br />
+			<div v-for="item in data.staffs">
+				<h3><router-link :to="'/staff/show/'+item.id">{{item.name}}</router-link></h3>
+				<b>{{evol.trans.property[item.property]}} <span v-for="a in item.ability">/ {{evol.tag[a].name}} </span></b>
 				<br /><br />
 				<div id="tags">
-					<span v-for="item in evol.staff[item].tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
+					<span v-for="item in item.tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
 				</div><br />
 			</div>
 		</div>
@@ -78,9 +80,17 @@ export default {
 			appConfig: this.appConfig,
 			isLoading: true,
 			options: _defaultOptions,
+			filterInResults: "",
+			filterInResultsExecute: false,
 			data: {
-				staffId: []
+				staffs: []
 			}
+		}
+	},
+	watch: {
+		filterInResults(newer,older){
+			let that=this;
+			this.filterInResultsDash();
 		}
 	},
 	mounted(){
@@ -93,6 +103,18 @@ export default {
 		unsetLoading(){
 			this.isLoading=false;
 		},
+		filterInResultsDash: _.debounce(function (){
+			if(this.filterInResults.trim()==""){
+				this.filterInResultsExecute=false;
+			}else{
+				this.filterInResultsExecute=this.filterInResults.trim();
+			}
+			let filterInResultsExecute=this.filterInResultsExecute;
+			this.data.staffs=_.filter(this.data.staffs,function (o){
+				return(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0);
+			});
+			// this.sortDataWithCardsId_sortBy();
+		},666),
 		checkTag(e){
 			if(e.target.checked){
 				this.options.tagsChecked.push(parseInt(e.target.dataset.tagId));
@@ -116,7 +138,7 @@ export default {
 				return i.toString()[0];
 			});
 			_.filter(this.evol.staff,function (o){
-				return inArray(property,o.property);
+				return inArray(property,o.property)&&(!that.filterInResultsExecute||o.name.indexOf(that.filterInResultsExecute)>=0);
 			}).forEach(function (data,index){
 				if(tag.length>0){
 					let i_t=_.intersection(data.tag,tag).length==0;
@@ -129,9 +151,9 @@ export default {
 					}
 				}
 				
-				staffs.push(that.evol.index.staff[data.id]);
+				staffs.push(data);
 			});
-			this.data.staffId=staffs;
+			this.data.staffs=staffs;
 		},
 		reload(){
 			let that=this;

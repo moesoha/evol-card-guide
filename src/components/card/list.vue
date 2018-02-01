@@ -32,7 +32,6 @@
 				<label for="showEvolved">显示进化后图片</label><br />
 				<button v-on:click="reload">筛选!</button>
 				<br />
-				<input type="text" placeholder="在结果中查找" v-model="filterInResults" />
 				<br />
 			</span>
 		</div>
@@ -41,6 +40,8 @@
 			<b><i>正在处理...</i></b>
 		</div>
 		<table border="0" v-else>
+			<input type="text" placeholder="在结果中查找" v-model="filterInResults" /><br />
+			<br />
 			<tr v-for="cardGroup in data.cardSortedGroups">
 				<td v-for="item in cardGroup">
 					<img :src="appConfig.cardSmallPicPath+(options.showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
@@ -132,7 +133,6 @@ export default {
 			this.data.cardSortedGroups=_.chunk(_.filter(this.data.ungrouped,function (o){
 				return(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0);
 			}),this.options.numPerLine);
-			console.log(this.data.cardSortedGroups);
 			// this.sortDataWithCardsId_sortBy();
 		},666),
 		sortDataWithCardsId_sortBy(){
