@@ -91,7 +91,7 @@ export default {
 	data(){
 		let that=this;
 		let thisTask=_.cloneDeep(this.evol.task[this.evol.index.task[this.$route.params.id.toString()]]);
-		console.log(thisTask);
+		// console.log(thisTask);
 		let chooseCardLimit=false;
 		if(thisTask.limit.chooseCard && thisTask.limit.chooseCard.length>0){
 			let a=[];
