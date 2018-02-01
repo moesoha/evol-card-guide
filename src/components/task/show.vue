@@ -62,11 +62,11 @@
 				<h5>符合条件的专家</h5>
 				<div v-if="event.staffMatched['2']">
 					<h6>两个条件符合</h6>
-					<p class="list-experts"><span v-for="staff in event.staffMatched['2']"><router-link :to="'/staff/show/'+staff.id">{{staff.name}}</router-link></span></p>
+					<p class="list-experts"><span v-for="staff in event.staffMatched['2']"><router-link :to="'/staff/show/'+staff.id">{{staff.name}}</router-link><sub v-if="repeatedExpert[staff.id.toString()]>1">!!</sub></span></p>
 				</div>
 				<div v-if="event.staffMatched['1']">
 					<h6>一个条件符合</h6>
-					<p class="list-experts"><span v-for="staff in event.staffMatched['1']"><router-link :to="'/staff/show/'+staff.id">{{staff.name}}</router-link></span></p>
+					<p class="list-experts"><span v-for="staff in event.staffMatched['1']"><router-link :to="'/staff/show/'+staff.id">{{staff.name}}</router-link><!--<sub v-if="repeatedExpert[staff.id.toString()]>1">!!</sub>--></span></p>
 				</div>
 			</div>
 			<div v-if="event.type==3 && showAnswerId.indexOf(eid)>=0 && event.cardMatched && event.cardMatched.length>0">
@@ -81,6 +81,7 @@
 		</details>
 		<hr>
 		<p v-if="thisTask.limit.daily>0">你一天只有{{thisTask.limit.daily}}次免费拍摄机会。</p>
+		<p v-else>这一关拍摄次数不限。</p>
 		<p v-if="chooseCardLimit">在进行这次拍摄时，你只可以召唤<b>{{chooseCardLimit}}</b>的羁绊</p>
 	</div>
 </template>
@@ -119,7 +120,8 @@ export default {
 			appConfig: this.appConfig,
 			thisTask: thisTask,
 			chooseCardLimit: chooseCardLimit,
-			showAnswerId: []
+			showAnswerId: [],
+			repeatedExpert: {}
 		}
 	},
 	methods: {
@@ -140,7 +142,11 @@ export default {
 				let sTag=_.cloneDeep((data.tag));
 				let i_t=_.intersection(_.concat(sAbility,sTag),tag).length;
 				if(i_t>0){
+					// that.repeatedExpert[data.id.toString()]=that.repeatedExpert[data.id.toString()]?that.repeatedExpert[data.id.toString()]+1:1;
 					// console.log(_.concat(sAbility,sTag),tag,i_t);
+					if(i_t>1){ // 只对匹配到的标签数量大于等于2的时候进行重复判断
+						that.repeatedExpert[data.id.toString()]=that.repeatedExpert[data.id.toString()]?that.repeatedExpert[data.id.toString()]+1:1;
+					}
 					if(!expertHit[i_t.toString()]){
 						expertHit[i_t.toString()]=[data];
 					}else{

@@ -56,6 +56,31 @@ let evol={
 			"night": "精英关卡",
 			"male": "副本",
 			"special": "活动关卡",
+		},
+		numberToChinese: {
+			habitWithQuantifier(num){
+				let norm={
+					'1': "一",
+					'2': "两",
+					'3': "三",
+					'4': "四",
+					'5': "五",
+					'6': "六",
+					'7': "七",
+					'8': "八",
+					'9': "九",
+					'0': "零",
+					"10": "十",
+					"100": "百",
+					"1000": "千"
+				};
+				let abnum=Math.abs(num);
+				let han="";
+				if(abnum<=10){
+					han=norm(abnum.toString());
+				} // 这个转换得用while来做任何数字的处理，先丢这儿吧，反正暂时用不到10+
+				return han;
+			}
 		}
 	},
 	type: {
