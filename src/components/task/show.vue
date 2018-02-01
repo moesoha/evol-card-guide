@@ -80,7 +80,7 @@
 			<br />
 		</details>
 		<hr>
-		<p v-if="thisTask.limit.daily>=0">你一天只有{{thisTask.limit.daily}}次免费拍摄机会。</p>
+		<p v-if="thisTask.limit.daily>0">你一天只有{{thisTask.limit.daily}}次免费拍摄机会。</p>
 		<p v-if="chooseCardLimit">在进行这次拍摄时，你只可以召唤<b>{{chooseCardLimit}}</b>的羁绊</p>
 	</div>
 </template>
