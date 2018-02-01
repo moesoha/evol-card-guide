@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import NotFound from '@/components/notFound'
+// import ErrorHandler from '@/components/error'
 import Home from '@/components/home'
 import CardShow from '@/components/card/show'
 import CardSearch from '@/components/card/search'
@@ -10,6 +12,12 @@ import TaskShow from '@/components/task/show'
 import TaskList from '@/components/task/list'
 
 Vue.use(Router)
+
+Vue.config.errorHandler=function (err,vm,info){
+	console.log(vm,info);
+	console.error(err);
+	alert(vm.$vnode.tag+'出错，请将错误报告给开发者\n'+err.message+'\n\n'+err.stack);
+}
 
 export default new Router({
 	routes: [{
@@ -44,5 +52,9 @@ export default new Router({
 		path: '/task/list',
 		name: 'TaskList',
 		component: TaskList
+	},{
+		path: '*',
+		name: 'NotFound',
+		component: NotFound
 	}]
 })
