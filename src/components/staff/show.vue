@@ -10,6 +10,9 @@
 		<b>特聘</b>&nbsp;&nbsp;<span>{{thisStaff.price.deploy}} <i>金币</i></span><br />
 		<hr>
 		<p>
+			{{thisStaff.school}} {{thisStaff.subject}}
+		</p>
+		<p>
 			{{evol.text.get(thisStaff.description)}}
 		</p>
 		<h5>自我介绍</h5>
@@ -25,11 +28,13 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
 	name: 'StaffShow',
 	data(){
 		let that=this;
-		let thisStaff=this.evol.staff[this.evol.index.staff[this.$route.params.id.toString()]];
+		let thisStaff=_.cloneDeep(this.evol.staff[this.evol.index.staff[this.$route.params.id.toString()]]);
 		// console.log(thisStaff);
 		// let tag=[];
 		// thisStaff.tag.forEach(function (value,i){
