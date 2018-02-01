@@ -64,6 +64,12 @@
 					<p class="list-experts"><span v-for="staff in event.staffMatched['1']"><router-link :to="'/staff/show/'+staff.id">{{staff.name}}</router-link></span></p>
 				</div>
 			</div>
+			<div v-if="event.type==3 && event.cardMatched && event.cardMatched.length>0">
+				<h5>符合条件的羁绊</h5>
+				<div>
+					<p class="list-experts" v-for="card in event.cardMatched"><span><router-link :to="'/card/show/'+card.id">[{{card.rare}}] {{card.name}}</router-link></span></p>
+				</div>
+			</div>
 		</details>
 		<hr>
 		<p v-if="thisTask.limit.daily>=0">你一天只有{{thisTask.limit.daily}}次免费拍摄机会。</p>
@@ -143,7 +149,7 @@ export default {
 						},
 						'price.deploy'
 					]).forEach(function (data){
-						console.log(i,data.name,data.property,data.price.deploy,data.price.hire)
+						// console.log(i,data.name,data.property,data.price.deploy,data.price.hire)
 						if(!expertHitId[i]){
 							expertHitId[i]=[data];
 						}else{
@@ -154,6 +160,24 @@ export default {
 			}
 			// console.log(expertHit);
 			return expertHitId;
+		},
+		getCard(role,tag){
+			let that=this;
+			let hit=[];
+			_.forEach(this.evol.index.card_role[role],function (i){
+				let card=that.evol.card[i];
+				console.log(i,card)
+				if(card.tag==tag){
+					hit.push({
+						rare: card.rare,
+						id: card.id,
+						index: i,
+						name: card.name
+					});
+				}
+			});
+			console.log(hit)
+			return hit;
 		}
 	},
 	computed: {
@@ -199,6 +223,9 @@ export default {
 
 				if(o.type==1){
 					o.staffMatched=that.getStaff(o.tag);
+				}
+				if(o.type==3){
+					o.cardMatched=that.getCard(that.thisTask.role,o.tag);
 				}
 
 				a.push(o);
