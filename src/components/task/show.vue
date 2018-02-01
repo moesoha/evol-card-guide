@@ -52,7 +52,7 @@
 		<h3>事件</h3>
 		<details v-for="event,eid in thisTaskEvent">
 			<summary>{{event.description.event}}</summary>
-			<p v-if="[1,3].indexOf(event.type)!=-1"><span v-for="item in event.tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span></p>
+			<p v-if="[1,3].indexOf(event.type)!=-1"><span v-for="item in event.tag" v-if="item!=-1" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span></p>
 			<div v-if="event.type==2">
 				<ul>
 					<li v-for="item,iid in event.selection"><span :style="'color: '+(showAnswerId.indexOf(eid)>=0?(event.effect[iid]>90?'green':(event.effect[iid]<10?'#aaa':'orange')):'black')+';'">{{item}}</span></li>
@@ -245,6 +245,7 @@ export default {
 
 				a.push(o);
 			});
+			// console.log(a);
 			return a;
 		},
 	}
