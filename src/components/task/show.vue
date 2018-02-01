@@ -50,10 +50,15 @@
 		</div>
 		<hr>
 		<h3>事件</h3>
-		<details v-for="event in thisTaskEvent">
+		<details v-for="event,eid in thisTaskEvent">
 			<summary>{{event.description.event}}</summary>
 			<p v-if="[1,3].indexOf(event.type)!=-1"><span v-for="item in event.tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span></p>
-			<div v-if="event.type==1">
+			<div v-if="event.type==2">
+				<ul>
+					<li v-for="item,iid in event.selection"><span :style="'color: '+(showAnswerId.indexOf(eid)>=0?(event.effect[iid]>90?'green':(event.effect[iid]<10?'#aaa':'orange')):'black')+';'">{{item}}</span></li>
+				</ul>
+			</div>
+			<div v-if="event.type==1 && showAnswerId.indexOf(eid)>=0">
 				<h5>符合条件的专家</h5>
 				<div v-if="event.staffMatched['2']">
 					<h6>两个条件符合</h6>
@@ -64,12 +69,15 @@
 					<p class="list-experts"><span v-for="staff in event.staffMatched['1']"><router-link :to="'/staff/show/'+staff.id">{{staff.name}}</router-link></span></p>
 				</div>
 			</div>
-			<div v-if="event.type==3 && event.cardMatched && event.cardMatched.length>0">
+			<div v-if="event.type==3 && showAnswerId.indexOf(eid)>=0 && event.cardMatched && event.cardMatched.length>0">
 				<h5>符合条件的羁绊</h5>
 				<div>
 					<p class="list-experts" v-for="card in event.cardMatched"><span><router-link :to="'/card/show/'+card.id">[{{card.rare}}] {{card.name}}</router-link></span></p>
 				</div>
 			</div>
+			<button :data-eid="eid" v-if="showAnswerId.indexOf(eid)<0" v-on:click="showAnswer">显示提示</button>
+			<br />
+			<br />
 		</details>
 		<hr>
 		<p v-if="thisTask.limit.daily>=0">你一天只有{{thisTask.limit.daily}}次免费拍摄机会。</p>
@@ -110,7 +118,8 @@ export default {
 			evol: this.evol,
 			appConfig: this.appConfig,
 			thisTask: thisTask,
-			chooseCardLimit: chooseCardLimit
+			chooseCardLimit: chooseCardLimit,
+			showAnswerId: []
 		}
 	},
 	methods: {
@@ -166,7 +175,7 @@ export default {
 			let hit=[];
 			_.forEach(this.evol.index.card_role[role],function (i){
 				let card=that.evol.card[i];
-				console.log(i,card)
+				// console.log(i,card)
 				if(card.tag==tag){
 					hit.push({
 						rare: card.rare,
@@ -176,8 +185,14 @@ export default {
 					});
 				}
 			});
-			console.log(hit)
+			// console.log(hit)
 			return hit;
+		},
+		showAnswer(e){
+			// console.log(e.target.dataset);
+			let a=this.showAnswerId;
+			a.push(parseInt(e.target.dataset.eid));
+			this.showAnswerId=a;
 		}
 	},
 	computed: {
