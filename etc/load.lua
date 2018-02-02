@@ -24,7 +24,14 @@ JSON=assert(loadfile(officialCodeBase.."lib/JSON.lua"))()
 trans={
 	rare={"N","NH","R","SR","SSR"},
 	property={"decision","creativity","affinity","execution"},
-	taskType={[0]="day","night","male"},
+	taskType=function (id)
+		local type={[0]="day","night","male","special"}
+		if(type[id]) then
+			return type[id]
+		else
+			return tostring(id);
+		end
+	end,
 	textType={
 		[11]="taskDay",
 		[12]="taskNight",

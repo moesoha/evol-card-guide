@@ -56,6 +56,7 @@ let evol={
 			"night": "精英关卡",
 			"male": "副本",
 			"special": "活动关卡",
+			"4001": "2018李泽言生日"
 		},
 		numberToChinese: {
 			habitWithQuantifier(num){

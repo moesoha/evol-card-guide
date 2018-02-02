@@ -54,7 +54,7 @@ for _,value in pairs(ids) do
 		id=value,
 		name=MTaskInfoData.GetNameById(value),
 		stringid=name,
-		type=trans.taskType[MTaskInfoData.GetTaskType(value)],
+		type=trans.taskType(MTaskInfoData.GetTaskType(value)),
 		role=MTaskInfoData.GetMaleRoleId(value),
 		tasklineId=tasklineID,
 		need=need,
