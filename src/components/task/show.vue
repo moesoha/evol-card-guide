@@ -1,5 +1,13 @@
 <template>
 	<div>
+		<div class="prev-next-nav">
+			<div class="prev" v-if="prevTaskId">
+				<router-link :to="prevTaskId.toString()">←上一个</router-link>
+			</div>
+			<div class="next" v-if="nextTaskId">
+				<router-link :to="nextTaskId.toString()">下一个→</router-link>
+			</div>
+		</div>
 		<h1>[<span v-if="thisTask.type=='male'">{{evol.trans.role[thisTask.role]}}的</span>{{evol.trans.task[thisTask.type]}}]({{thisTask.stringid}}) {{ thisTask.name }}</h1>
 		<span class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[thisTask.program.type].icon]">{{evol.tag[thisTask.program.type].name}}</span><br />
 		<p>{{evol.text.get(thisTask.program.description)}}</p>
@@ -83,6 +91,14 @@
 		<p v-if="thisTask.limit.daily>0">你一天只有{{thisTask.limit.daily}}次免费拍摄机会。</p>
 		<p v-else>这一关拍摄次数不限。</p>
 		<p v-if="chooseCardLimit">在进行这次拍摄时，你只可以召唤<b>{{chooseCardLimit}}</b>的羁绊</p>
+		<div class="prev-next-nav">
+			<div class="prev" v-if="prevTaskId">
+				<router-link :to="prevTaskId.toString()">←上一个</router-link>
+			</div>
+			<div class="next" v-if="nextTaskId">
+				<router-link :to="nextTaskId.toString()">下一个→</router-link>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -90,41 +106,52 @@
 export default {
 	name: 'TaskShow',
 	data(){
-		let that=this;
-		let thisTask=_.cloneDeep(this.evol.task[this.evol.index.task[this.$route.params.id.toString()]]);
-		// console.log(thisTask);
-		let chooseCardLimit=false;
-		if(thisTask.limit.chooseCard && thisTask.limit.chooseCard.length>0){
-			let a=[];
-			thisTask.limit.chooseCard.forEach(function (v){
-				a.push(that.evol.trans.role[v]);
-			});
-			chooseCardLimit=a.join('、');
-		}
-		let prop=[];
-		_.forEach(thisTask.score.propertyRate,function (v,k){
-			prop.push({
-				v: v,
-				k: k
-			});
-		});
-		let propa=[];
-		_.reverse(_.sortBy(prop,['v'])).forEach(function(d){
-			propa.push(d.k);
-		});
-		thisTask.advantageProperty=propa;
-		prop=propa=null;
-		
-		return {
-			evol: this.evol,
-			appConfig: this.appConfig,
-			thisTask: thisTask,
-			chooseCardLimit: chooseCardLimit,
-			showAnswerId: [],
-			repeatedExpert: {}
+		return this.loadData();
+	},
+	watch: {
+		'$route.params.id'(){
+			let data=this.loadData();
+			for(let k in data){
+				if(data.hasOwnProperty(k)){
+					this[k]=data[k];
+				}
+			}
 		}
 	},
 	methods: {
+		loadData(){
+			let that=this;
+			let thisTask=_.cloneDeep(this.evol.task[this.evol.index.task[this.$route.params.id.toString()]]);
+			// console.log(thisTask);
+			let chooseCardLimit=false;
+			if(thisTask.limit.chooseCard && thisTask.limit.chooseCard.length>0){
+				let a=[];
+				thisTask.limit.chooseCard.forEach(function (v){
+					a.push(that.evol.trans.role[v]);
+				});
+				chooseCardLimit=a.join('、');
+			}
+			let prop=[];
+			_.forEach(thisTask.score.propertyRate,function (v,k){
+				prop.push({
+					v: v,
+					k: k
+				});
+			});
+			let propa=[];
+			_.reverse(_.sortBy(prop,['v'])).forEach(function(d){
+				propa.push(d.k);
+			});
+			thisTask.advantageProperty=propa;
+			prop=propa=null;
+
+			return {
+				thisTask: thisTask,
+				chooseCardLimit: chooseCardLimit,
+				showAnswerId: [],
+				repeatedExpert: {}
+			}
+		},
 		getStaff(tags){
 			if(tags.length<=0){
 				return;
@@ -202,6 +229,14 @@ export default {
 		}
 	},
 	computed: {
+		prevTaskId(){
+			let ntask=this.evol.task[this.evol.index.task[this.thisTask.id.toString()]-1];
+			return ntask?ntask.id:false;
+		},
+		nextTaskId(){
+			let ntask=this.evol.task[this.evol.index.task[this.thisTask.id.toString()]+1];
+			return ntask?ntask.id:false;
+		},
 		thisTaskReward(){
 			let a=[];
 			for(var i in this.thisTask.reward){
@@ -265,5 +300,17 @@ export default {
 	.list-experts a {
 		color: rgb(18, 117, 231);
 		text-decoration: none;
+	}
+	.prev-next-nav {
+		margin-bottom: 1em;
+		padding-bottom: 1em;
+	}
+	.prev-next-nav .prev {
+		display: block;
+		float: left;
+	}
+	.prev-next-nav .next {
+		display: block;
+		float: right;
 	}
 </style>
