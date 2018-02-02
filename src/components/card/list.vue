@@ -93,8 +93,6 @@ export default {
 	name: 'CardList',
 	data(){
 		return {
-			evol: this.evol,
-			appConfig: this.appConfig,
 			isLoading: true,
 			options: _defaultOptions,
 			filterInResults: "",

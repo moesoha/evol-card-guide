@@ -159,13 +159,7 @@
 export default {
 	name: 'CardShow',
 	data(){
-		// console.log(this.$route.params);
-		// console.log(this.evol);
-		// console.log(this.evol.card[this.evol.index.card[this.$route.params.id.toString()]]);
-		// console.log(this.appConfig);
 		return {
-			evol: this.evol,
-			appConfig: this.appConfig,
 			thisCard: this.evol.card[this.evol.index.card[this.$route.params.id.toString()]],
 			getGetMethodType: function (type){
 				type=type.toString();
@@ -175,6 +169,11 @@ export default {
 					return "";
 				}
 			}
+		}
+	},
+	watch: {
+		'$route.params.id'(){
+			this.thisCard=this.evol.card[this.evol.index.card[this.$route.params.id.toString()]];
 		}
 	}
 }

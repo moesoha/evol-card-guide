@@ -76,8 +76,6 @@ export default {
 	name: 'StaffList',
 	data(){
 		return {
-			evol: this.evol,
-			appConfig: this.appConfig,
 			isLoading: true,
 			options: _defaultOptions,
 			filterInResults: "",

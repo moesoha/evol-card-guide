@@ -78,8 +78,6 @@ export default {
 	name: 'TaskList',
 	data(){
 		return {
-			evol: this.evol,
-			appConfig: this.appConfig,
 			isLoading: false,
 			data: {
 				task: {}

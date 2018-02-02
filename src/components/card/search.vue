@@ -62,7 +62,6 @@ export default {
 		// console.log(this.evol);
 		let searchResult=searchInArray(this.$route.params.q,this.evol.index.card_name);
 		return {
-			evol: this.evol,
 			q: this.$route.params.q,
 			q_last: this.$route.params.q,
 			showEvolved: false,

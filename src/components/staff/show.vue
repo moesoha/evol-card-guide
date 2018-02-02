@@ -33,24 +33,32 @@ import _ from 'lodash';
 export default {
 	name: 'StaffShow',
 	data(){
-		let that=this;
-		let thisStaff=_.cloneDeep(this.evol.staff[this.evol.index.staff[this.$route.params.id.toString()]]);
-		// console.log(thisStaff);
-		// let tag=[];
-		// thisStaff.tag.forEach(function (value,i){
-		// 	tag.push(that.evol.tag[value.toString()]);
-		// });
-		let ability=[];
-		thisStaff.ability.forEach(function (value,i){
-			ability.push(that.evol.tag[value.toString()].name);
-		});
-		return {
-			evol: this.evol,
-			appConfig: this.appConfig,
-			thisStaff: thisStaff,
-			str: {
-				ability: ability.join(' / ')
+		return this.loadData();
+	},
+	watch: {
+		'$route.params.id'(){
+			let data=this.loadData();
+			for(let k in data){
+				if(data.hasOwnProperty(k)){
+					this[k]=data[k];
+				}
 			}
+		}
+	},
+	methods: {
+		loadData(){
+			let that=this;
+			let thisStaff=_.cloneDeep(this.evol.staff[this.evol.index.staff[this.$route.params.id.toString()]]);
+			let ability=[];
+			thisStaff.ability.forEach(function (value,i){
+				ability.push(that.evol.tag[value.toString()].name);
+			});
+			return {
+				thisStaff: thisStaff,
+				str: {
+					ability: ability.join(' / ')
+				}
+			};
 		}
 	}
 }
