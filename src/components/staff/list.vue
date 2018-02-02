@@ -81,14 +81,14 @@ export default {
 			filterInResults: "",
 			filterInResultsExecute: false,
 			data: {
-				staffs: []
+				staffs: [],
+				staffsUnfiltered: []
 			}
 		}
 	},
 	watch: {
 		filterInResults(newer,older){
-			let that=this;
-			this.filterInResultsDash();
+			this.debouncedFilterInResultsDash();
 		}
 	},
 	mounted(){
@@ -101,17 +101,16 @@ export default {
 		unsetLoading(){
 			this.isLoading=false;
 		},
-		filterInResultsDash: _.debounce(function (){
+		debouncedFilterInResultsDash: _.debounce(function (){
 			if(this.filterInResults.trim()==""){
 				this.filterInResultsExecute=false;
 			}else{
 				this.filterInResultsExecute=this.filterInResults.trim();
 			}
 			let filterInResultsExecute=this.filterInResultsExecute;
-			this.data.staffs=_.filter(this.data.staffs,function (o){
+			this.data.staffs=_.filter(this.data.staffsUnfiltered,function (o){
 				return(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0);
 			});
-			// this.sortDataWithCardsId_sortBy();
 		},666),
 		checkTag(e){
 			if(e.target.checked){
@@ -151,7 +150,8 @@ export default {
 				
 				staffs.push(data);
 			});
-			this.data.staffs=staffs;
+			this.data.staffsUnfiltered=staffs;
+			this.debouncedFilterInResultsDash();
 		},
 		reload(){
 			let that=this;
