@@ -11,7 +11,7 @@
 		<hr>
 		<div id="cardsearch-result" v-if="data.length>0">
 			<div v-for="item in data">
-				<img :src="appConfig.cardSmallPicPath+(showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
+				<img :src="appConfig.path.getImagePath('card_s',(options.showEvolved?item.pic.evolved:item.pic.normal))">
 				<p>
 					[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
 				</p>

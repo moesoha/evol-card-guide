@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<img :src="appConfig.cardPicPath+thisCard.pic.normal+'_h.jpg'">
-		<img :src="appConfig.cardPicPath+thisCard.pic.evolved+'_h.jpg'">
+		<img :src="appConfig.path.getImagePath('card_h',thisCard.pic.normal)">
+		<img :src="appConfig.path.getImagePath('card_h',thisCard.pic.evolved)">
 		<h1>[{{thisCard.rare}}] {{ thisCard.name }}</h1>
 		<p id="cardshow-maxrank">
 			<span v-for="n in thisCard.maxRank">★</span>

@@ -87,7 +87,7 @@ export default {
 	},
 	mounted(){
 		let that=this;
-		console.log(this.specialTask,this.data);
+		// console.log(this.specialTask,this.data);
 		// this.setLoading();
 		this.loadData();
 		// setTimeout(function (){

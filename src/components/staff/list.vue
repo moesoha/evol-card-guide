@@ -23,7 +23,7 @@
 			</details>
 			<br />
 			<button v-on:click="reload">确认</button>
-			<br /><p><small><a href="https://github.com/moesoha/evol-card-guide/issues/1">为什么没有专家的图片？</a></small></p>
+			<br />
 			<!-- <b>排序</b><br />
 			<span v-for="property,i in evol.trans.property" v-if="property">
 				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="reload">

@@ -44,7 +44,7 @@
 			<br />
 			<tr v-for="cardGroup in data.cardSortedGroups">
 				<td v-for="item in cardGroup">
-					<img :src="appConfig.cardSmallPicPath+(options.showEvolved?item.pic.evolved:item.pic.normal)+'.jpg'">
+					<img :src="appConfig.path.getImagePath('card_s',(options.showEvolved?item.pic.evolved:item.pic.normal))">
 					<p>
 						[{{item.rare}}] <router-link v-bind:to="'/card/show/'+item.id">{{item.name}}</router-link>
 					</p>

@@ -1,5 +1,20 @@
 module.exports={
 	GATrackID: "UA-123-1",
-	cardPicPath: "/card_h/",
-	cardSmallPicPath: "/card/"
+	path: {
+		image: {
+			root: '/images/',
+			card_s: 'card/$id.jpg',
+			card_h: 'card_h/$id_h.jpg',
+			staff: 'icon_s/$id.jpg'
+		},
+		getUrl(key,id){
+			if(this.image.hasOwnProperty(key)){
+				let path=this.root+this.image[key];
+				path=path.replace("$id",id);
+				return path;
+			}else{
+				throw new Error("No such image group.");
+			}
+		}
+	}
 };
