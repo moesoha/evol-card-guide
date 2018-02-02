@@ -1,5 +1,31 @@
 <template>
 	<div>
+		<div style="position: relative;">
+			<div style="position: absolute;" v-if="parseInt(picShow)==1">
+				<img :src="appConfig.path.getImagePath('staff',thisStaff.pic.happy)">
+			</div>
+			<div style="position: absolute;" v-if="parseInt(picShow)==2">
+				<img :src="appConfig.path.getImagePath('staff',thisStaff.pic.sad)">
+			</div>
+			<img :src="appConfig.path.getImagePath('staff',thisStaff.pic.bg)">
+		</div>
+
+		<div>
+			<span>
+				<input type="radio" id="picshow-0" value="0" v-model="picShow">
+				<label for="picshow-0">正常</label>
+			</span>
+			<span>
+				<input type="radio" id="picshow-1" value="1" v-model="picShow">
+				<label for="picshow-1">开心</label>
+			</span>
+			<span>
+				<input type="radio" id="picshow-2" value="2" v-model="picShow">
+				<label for="picshow-2">伤心</label>
+			</span>
+		</div>
+		<br />
+
 		<h1>[专家] {{ thisStaff.name }}</h1>
 		<h3>{{evol.trans.property[thisStaff.property]}}</h3>
 		<h4>{{str.ability}}</h4>
@@ -33,7 +59,9 @@ import _ from 'lodash';
 export default {
 	name: 'StaffShow',
 	data(){
-		return this.loadData();
+		let data=this.loadData();
+		data.picShow=0; // 0-normal backgroung 1-happy layer 2-sad layer 
+		return data;
 	},
 	watch: {
 		'$route.params.id'(){

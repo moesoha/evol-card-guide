@@ -5,7 +5,7 @@ module.exports={
 			root: '/images/',
 			card_s: 'card/$id.jpg',
 			card_h: 'card_h/$id_h.jpg',
-			staff: 'icon_s/$id.jpg'
+			staff: 'icon_s/$id.png'
 		},
 		getUrl(key,id){
 			if(this.image.hasOwnProperty(key)){
