@@ -35,17 +35,18 @@
 					</tr>
 				</table>
 			</div><!-- 副本角色枚举 -->
-			<div class="task-datas"><!-- 特殊 -->
-				<h3>{{evol.trans.task['special']}}</h3>
+			<h3>{{evol.trans.task['special']}}</h3><!-- 活动枚举 -->
+			<div class="task-datas" v-for="taskGroups,key in data.task['special']">
+				<h5>{{evol.trans.task[key]}}</h5>
 				<table border="1">
-					<tr v-for="taskGroup in data.task['special']">
+					<tr v-for="taskGroup in taskGroups">
 						<td v-for="task in taskGroup">
 							<router-link :to="'/task/show/'+task.id"><small><i>({{task.stringid}})</i></small>{{task.name}}</router-link>
 						</td>
 					</tr>
 				</table>
-			</div><!-- 特殊 -->
-		</div>
+			</div>
+		</div><!-- 活动枚举 -->
 		<!-- <div v-for="taskGroups,key in data.task" v-else>
 			<h3>{{evol.trans.task[key]}}</h3>
 			<div v-if="key=='male'" v-for="taskGroups1,key1 in taskGroups">
@@ -86,6 +87,7 @@ export default {
 	},
 	mounted(){
 		let that=this;
+		console.log(this.specialTask,this.data);
 		// this.setLoading();
 		this.loadData();
 		// setTimeout(function (){
@@ -103,19 +105,23 @@ export default {
 			let that=this;
 			let tableChunkSize=5;
 			let tasks=_.groupBy(this.evol.task,function (o){
-				return that.evol.type.task[o.id.toString().substr(0,1)];
+				return that.evol.type.task(o.type/*o.id.toString().substr(0,1)*/);
 			});
-			tasks.male=_.groupBy(tasks.male,function (o){
-				return parseInt(o.id.toString().substr(1,1));
-			});
+			tasks.male=_.groupBy(tasks.male,'role');
+			tasks.special=_.groupBy(tasks['special'],'type');
 			for(var k in tasks){
-				if(tasks.hasOwnProperty(k)&&k!='male'){
+				if(tasks.hasOwnProperty(k)&&['male','special'].indexOf(k)==-1){
 					tasks[k]=_.chunk(tasks[k],tableChunkSize);
 				}
 			}
 			for(var k in tasks.male){
 				if(tasks.male.hasOwnProperty(k)){
 					tasks.male[k]=_.chunk(tasks.male[k],tableChunkSize);
+				}
+			}
+			for(var k in tasks.special){
+				if(tasks.special.hasOwnProperty(k)){
+					tasks.special[k]=_.chunk(tasks.special[k],tableChunkSize);
 				}
 			}
 			this.data.task=tasks

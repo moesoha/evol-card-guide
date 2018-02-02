@@ -99,11 +99,19 @@ let evol={
 			"30": "card",
 			"31": "staff",
 		},
-		task: {
-			"1": "day",
-			"2": "night",
-			"3": "male",
-			"8": "special"
+		task(type){
+			// let known={
+			// 	"1": "day",
+			// 	"2": "night",
+			// 	"3": "male",
+			// 	//"8": "special"
+			// };
+			let known=['day','night','male'];
+			if(known.indexOf(type)>=0){
+				return type;
+			}else{
+				return 'special';
+			}
 		}
 	},
 	methods: []
