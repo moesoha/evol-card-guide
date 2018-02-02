@@ -16,9 +16,9 @@ table.sort(cardIds)
 	staff_property_base		属性初始值
 	staff_property_inc		已废弃
 	staff_hire_price		聘用需要啥 extractGoodsStr
-	staff_icon1		专家图片id normal
-	staff_icon2		专家图片id normal
-	staff_icon3		专家图片id normal
+	staff_icon1		专家图片id normal background
+	staff_icon2		专家图片id happy layer
+	staff_icon3		专家图片id sad layer
 	school		毕业学校
 	subject		毕业专业
 	desc		专家描述
@@ -44,7 +44,12 @@ for _,value in pairs(cardIds) do
 		property=trans.property[MStaffData.GetAttrType(value)],
 		description=staff_info_data.data[value].desc,
 		selfIntroduction=staff_info_data.data[value].self_intro,
-		resume=trans.extractColonStrToNumberArray(staff_info_data.data[value].resume)
+		resume=trans.extractColonStrToNumberArray(staff_info_data.data[value].resume),
+		pic={
+			bg=staff_info_data.data[value].staff_icon1,
+			happy=staff_info_data.data[value].staff_icon2,
+			sad=staff_info_data.data[value].staff_icon3
+		}
 	}
 	table.insert(cardExtractedData,thisCardData)
 end
