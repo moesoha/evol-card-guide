@@ -49,7 +49,21 @@
 		<li v-for="id in thisStaff.resume">
 			{{evol.text.get(id)}}
 		</li>
-
+		<hr>
+		<div>
+			<h3>工具</h3>
+			<div>
+				<h4>关卡</h4>
+				<p v-if="!useful.calculated"><i>因为数据查询时间可能较长，需要手动启动。</i></p>
+				<button v-if="!useful.calculated" v-on:click="calcUseful">开始</button>
+				<div v-if="useful.calculated">
+					<p>游戏共有<b>{{useful.data.event.total}}</b>个专家事件，该角色可在<b>{{useful.data.event.hit}}</b>个事件中完全匹配标签。</p>
+					<!-- <details>
+						<summary>可应用的关卡</summary>
+					</details> -->
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -60,7 +74,6 @@ export default {
 	name: 'StaffShow',
 	data(){
 		let data=this.loadData();
-		data.picShow=0; // 0-normal backgroung 1-happy layer 2-sad layer 
 		return data;
 	},
 	watch: {
@@ -85,8 +98,28 @@ export default {
 				thisStaff: thisStaff,
 				str: {
 					ability: ability.join(' / ')
+				},
+				picShow: 0, // 0-normal backgroung 1-happy layer 2-sad layer 
+				useful: {
+					calculated: false,
+					data: {
+						event: {
+							total: 0,
+							hit: 0
+						},
+						tasksGrouped: []
+					}
 				}
 			};
+		},
+		calcUseful(e){
+			// console.log(e);
+			let mytag=_.concat(_.cloneDeep(this.thisStaff.ability),_.cloneDeep(this.thisStaff.tag));
+			let data=this.evol._.task.getUseful(mytag);
+			this.useful.data.event.total=data.total;
+			this.useful.data.event.hit=data.hit;
+
+			this.useful.calculated=true;
 		}
 	}
 }

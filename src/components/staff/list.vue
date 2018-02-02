@@ -24,6 +24,9 @@
 			<br />
 			<button v-on:click="reload">确认</button>
 			<br />
+			<br />
+			<button v-on:click="sortWithUseful">将结果按使用次数排序<small>(较慢)</small></button>
+			<br />
 			<!-- <b>排序</b><br />
 			<span v-for="property,i in evol.trans.property" v-if="property">
 				<input type="radio" :id="'property-'+i" :value="i" v-model="options.sortBy" v-on:click="reload">
@@ -44,7 +47,9 @@
 				<br /><br />
 				<div id="tags">
 					<span v-for="item in item.tag" class="one-tag" :style="'background-color: '+evol.trans.color[evol.tag[item].icon]">{{evol.tag[item].name}}</span>
-				</div><br />
+				</div>
+				<p v-if="data.useful.calculated"><i>在</i><span>{{data.useful.data[item.id.toString()]}}</span>个事件中可完全匹配标签。</p>
+				<br />
 			</div>
 		</div>
 	</div>
@@ -82,7 +87,11 @@ export default {
 			filterInResultsExecute: false,
 			data: {
 				staffs: [],
-				staffsUnfiltered: []
+				staffsUnfiltered: [],
+				useful: {
+					calculated: false,
+					data: {}
+				}
 			}
 		}
 	},
@@ -151,6 +160,7 @@ export default {
 				staffs.push(data);
 			});
 			this.data.staffsUnfiltered=staffs;
+			this.data.useful.calculated=false;
 			this.debouncedFilterInResultsDash();
 		},
 		reload(){
@@ -160,6 +170,29 @@ export default {
 				that.hitStaff();
 				that.unsetLoading();
 			},66);
+		},
+		calcUseful(){
+			// console.log(e);
+			let that=this,datav={},total=0;
+			this.data.staffsUnfiltered.forEach(function (v){
+				let data=that.evol._.task.getUseful(_.concat(_.cloneDeep(v.ability),_.cloneDeep(v.tag)));
+				datav[v.id.toString()]=data.hit;
+				total=data.total;
+			});
+			this.data.useful.calculated=true;
+			this.data.useful.data=datav;
+
+			return datav;
+		},
+		sortWithUseful(){
+			let hitData=this.calcUseful();
+			let resort=_.sortBy(this.data.staffsUnfiltered,[
+				function (o){
+					return -1*hitData[o.id.toString()];
+				}
+			]);
+			this.data.staffsUnfiltered=resort;
+			this.debouncedFilterInResultsDash();
 		}
 	}
 }

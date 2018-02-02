@@ -15,6 +15,8 @@ let data_text={
 	taskSpecial: require('../data/text_taskSpecial.json')
 };
 
+import _ from 'lodash';
+
 let evol={
 	howToGet: data_howToGet,
 	index: {
@@ -114,7 +116,8 @@ let evol={
 			}
 		}
 	},
-	methods: []
+	methods: [],
+	_: {}
 };
 
 // 本来想用WebSQL，主要还是担心compatibility
@@ -228,6 +231,25 @@ for(var key in data_text){
 }
 
 index=roleIndex=nameIndex=null;
+
+// 下面带来一些好用的方法
+evol._.task={
+	getUseful(staffTags){
+		let dataRet={};
+
+		let events=_.filter(_.values(evol.taskEvent),function (o){
+			return o.type==1;
+		});
+		dataRet.total=events.length;
+		events=_.filter(events,function (o){
+			return (_.intersection(o.tag,staffTags).length==2)||(o.tag.indexOf(-1)>=0&&(_.intersection(o.tag,staffTags).length==1));
+		});
+		dataRet.hit=events.length;
+		dataRet.events=events;
+
+		return dataRet;
+	}
+};
 
 if(window){
 	window.evol=evol;
