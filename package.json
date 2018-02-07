@@ -1,7 +1,7 @@
 {
   "name": "evol-card-guide",
   "version": "1.0.0",
-  "description": "A field guide for the cards in the game 《恋与制作人》.",
+  "description": "A field guide for the cards of a game.",
   "author": "Soha Jin <soha@lohu.info>",
   "repository": {
     "type": "git",
