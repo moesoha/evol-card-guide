@@ -124,7 +124,7 @@ let evol={
 let index={},nameIndex={};
 let roleIndex=[null,{},{},{},{}];
 // let propertyIndex={};
-data_card.forEach(function (data,i){
+data_card.forEach((data,i)=>{
 	let id=data.id.toString();
 	let role=parseInt(id[1]);
 	if(!((role>=1)&&(role<=4))){
@@ -138,7 +138,7 @@ data_card.forEach(function (data,i){
 	// 公式来自官方客户端代码 →_→ (基础值 + 等级*基础成长值/100*(100 + 20*(星级-1))/100)*(100 + 进化加成)/100
 	// (property.base[k]+levelLimit.evolved*property.inc[k]/100*(100+20*(maxRank-1))/100)*(100+property.evolutionBonus)/100
 	let maxCardPoint={},maxCardPointSum=0;
-	for(var key in data.property.base){
+	for(let key in data.property.base){
 		if(data.property.base.hasOwnProperty(key)){
 			let pnt=Math.floor((data.property.base[key]+Math.floor(data.levelLimit.evolved*data.property.inc[key]/100*(100+20*(data.maxRank-1))/100))*(100+data.property.evolutionBonus)/100);
 			maxCardPoint[key]=pnt;
@@ -161,7 +161,7 @@ evol.index.card_name=nameIndex;
 evol.index.card_role=roleIndex;
 
 index={},nameIndex={};
-data_staff.forEach(function (data,i){
+data_staff.forEach((data,i)=>{
 	let id=data.id.toString();
 	index[id]=i; // 方便快速根据card id查找
 	nameIndex[id]=data.name; // 给搜索用的
@@ -171,7 +171,7 @@ evol.index.staff=index;
 evol.index.staff_name=nameIndex;
 
 index={},nameIndex={};
-data_task.forEach(function (data,i){
+data_task.forEach((data,i)=>{
 	let id=data.id.toString();
 	index[id]=i; // 方便快速根据card id查找
 	nameIndex[id]=data.name; // 给搜索用的
@@ -182,33 +182,23 @@ evol.index.task_name=nameIndex;
 
 // 下面都是将各个数据按(string)id存进object
 evol.goods={};
-data_goods.forEach(function (data,i){
-	evol.goods[data.id.toString()]=data;
-});
+data_goods.forEach(data=>(evol.goods[data.id.toString()]=data));
 evol.goods.item={};
-data_item.forEach(function (data,i){
-	evol.goods.item[data.id.toString()]=data;
-});
-evol.goods.get=function ({type,item}){
+data_item.forEach(data=>(evol.goods.item[data.id.toString()]=data));
+evol.goods.get=({type,item})=>{
 	switch(parseInt(item)){
 		case 0:
 			return this.item[type.toString()];
-			break;
 		default:
 			return this[item.toString()];
-			break;
 	}
 };
 
 evol.tag={};
-data_tag.forEach(function (data,i){
-	evol.tag[data.id.toString()]=data;
-});
+data_tag.forEach(data=>(evol.tag[data.id.toString()]=data));
 
 evol.taskEvent={};
-data_taskEvent.forEach(function (data,i){
-	evol.taskEvent[data.id.toString()]=data;
-});
+data_taskEvent.forEach(data=>(evol.taskEvent[data.id.toString()]=data));
 
 evol.text={
 	get(id){
@@ -221,12 +211,10 @@ evol.text={
 		}
 	}
 };
-for(var key in data_text){
+for(let key in data_text){
 	if(data_text.hasOwnProperty){
 		evol.text[key]={};
-		data_text[key].forEach(function (data,i){
-			evol.text[key][data.id.toString()]=data.text;
-		});
+		data_text[key].forEach(data=>(evol.text[key][data.id.toString()]=data.text));
 	}
 }
 
@@ -237,13 +225,9 @@ evol._.task={
 	getUseful(staffTags){
 		let dataRet={};
 
-		let events=_.filter(_.values(evol.taskEvent),function (o){
-			return o.type==1;
-		});
+		let events=_.filter(_.values(evol.taskEvent),o=>o.type==1);
 		dataRet.total=events.length;
-		events=_.filter(events,function (o){
-			return (_.intersection(o.tag,staffTags).length==2)||(o.tag.indexOf(-1)>=0&&(_.intersection(o.tag,staffTags).length==1));
-		});
+		events=_.filter(events,o=>(_.intersection(o.tag,staffTags).length==2)||(o.tag.indexOf(-1)>=0&&(_.intersection(o.tag,staffTags).length==1)));
 		dataRet.hit=events.length;
 		dataRet.events=events;
 

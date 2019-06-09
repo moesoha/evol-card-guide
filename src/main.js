@@ -12,7 +12,7 @@ Vue.prototype.appConfig=_config;
 
 Vue.config.productionTip=(process.env.NODE_ENV==='production');
 
-router.afterEach(function (to){
+router.afterEach(to=>{
 	// console.log(to);
 	if(process.env.NODE_ENV==='production' && window && window.gtag){
 		// console.log(_config);

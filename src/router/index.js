@@ -13,7 +13,7 @@ import TaskList from '@/components/task/list'
 
 Vue.use(Router)
 
-Vue.config.errorHandler=function (err,vm,info){
+Vue.config.errorHandler=(err,vm,info)=>{
 	console.log(vm,info);
 	console.error(err);
 	alert(vm.$vnode.tag+'出错，请将错误报告给开发者\n'+err.message+'\n\n'+err.stack);

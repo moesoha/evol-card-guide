@@ -106,7 +106,6 @@ export default {
 	},
 	watch: {
 		filterInResults(newer,older){
-			let that=this;
 			this.filterInResultsDash();
 		}
 	},
@@ -128,30 +127,24 @@ export default {
 				this.filterInResultsExecute=this.filterInResults.trim();
 			}
 			let filterInResultsExecute=this.filterInResultsExecute;
-			this.data.cardSortedGroups=_.chunk(_.filter(this.data.ungrouped,function (o){
-				return(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0);
-			}),this.options.numPerLine);
+			this.data.cardSortedGroups=_.chunk(_.filter(this.data.ungrouped,o=>(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0)),this.options.numPerLine);
 			// this.sortDataWithCardsId_sortBy();
 		},666),
 		sortDataWithCardsId_sortBy(){
-			let key=this.options.sortBy,that=this;
+			let key=this.options.sortBy;
 			let dataFields=[];
 			let roleFilter=[],rareFilter=[];
-			this.options.role.forEach(function (v,i){
+			this.options.role.forEach((v,i)=>{
 				if(v){
 					roleFilter.push(i);
 				}
 			});
-			this.options.rare.forEach(function (v,i){
+			this.options.rare.forEach((v,i)=>{
 				if(v){
-					rareFilter.push(that.evol.trans.rare[i]);
+					rareFilter.push(this.evol.trans.rare[i]);
 				}
 			});
-			_.filter(this.evol.card,function (o){
-				return (((_.indexOf(roleFilter,o.role))!=-1)&&((_.indexOf(rareFilter,o.rare))!=-1)&&(that.options.showCardCannotGet||(o.howToGet[0].value!="暂无来源")))&&(!that.filterInResultsExecute||o.name.indexOf(that.filterInResultsExecute)>=0);
-			}).forEach(function (v){
-				dataFields.push(v);
-			});
+			_.filter(this.evol.card,o=>(((_.indexOf(roleFilter,o.role))!=-1)&&((_.indexOf(rareFilter,o.rare))!=-1)&&(this.options.showCardCannotGet||(o.howToGet[0].value!="暂无来源")))&&(!this.filterInResultsExecute||o.name.indexOf(this.filterInResultsExecute)>=0)).forEach(v=>dataFields.push(v));
 			dataFields=_.reverse(_.sortBy(dataFields,['property.max.'+key]));
 			this.data.ungrouped=_.cloneDeep(dataFields);
 			dataFields=_.chunk(dataFields,this.options.numPerLine);
@@ -159,11 +152,10 @@ export default {
 			this.data.cardSortedGroups=dataFields;
 		},
 		reload(){
-			let that=this;
 			this.setLoading();
-			setTimeout(function (){
-				that.sortDataWithCardsId_sortBy();
-				that.unsetLoading();
+			setTimeout(()=>{
+				this.sortDataWithCardsId_sortBy();
+				this.unsetLoading();
 			},66);
 		}
 	}

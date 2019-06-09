@@ -59,7 +59,7 @@
 import _ from "lodash";
 
 let inArray=function (arr,val){
-	for(var i in arr){
+	for(let i in arr){
 		if(arr.hasOwnProperty(i) && arr[i]===val){
 			return true;
 		}
@@ -117,35 +117,27 @@ export default {
 				this.filterInResultsExecute=this.filterInResults.trim();
 			}
 			let filterInResultsExecute=this.filterInResultsExecute;
-			this.data.staffs=_.filter(this.data.staffsUnfiltered,function (o){
-				return(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0);
-			});
+			this.data.staffs=_.filter(this.data.staffsUnfiltered,o=>(!filterInResultsExecute||o.name.indexOf(filterInResultsExecute)>=0));
 		},666),
 		checkTag(e){
 			if(e.target.checked){
 				this.options.tagsChecked.push(parseInt(e.target.dataset.tagId));
 			}else{
-				_.remove(this.options.tagsChecked,function (id){
-					return id==parseInt(e.target.dataset.tagId);
-				})
+				_.remove(this.options.tagsChecked,id=>id==parseInt(e.target.dataset.tagId));
 			}
 			_.uniq(this.options.tagsChecked);
 			// console.log(this.options.tagsChecked);
 		},
 		hitStaff(){
-			let property=[],tag=this.options.tagsChecked,that=this;
-			for(var key in this.options.property){
+			let property=[],tag=this.options.tagsChecked;
+			for(let key in this.options.property){
 				if(this.options.property.hasOwnProperty(key) && this.options.property[key]){
 					property.push(key);
 				}
 			}
 			let staffs=[];
-			let tagTypeCount=_.countBy(tag,function (i){
-				return i.toString()[0];
-			});
-			_.filter(this.evol.staff,function (o){
-				return inArray(property,o.property)&&(!that.filterInResultsExecute||o.name.indexOf(that.filterInResultsExecute)>=0);
-			}).forEach(function (data,index){
+			let tagTypeCount=_.countBy(tag,i=>i.toString()[0]);
+			_.filter(this.evol.staff,o=>inArray(property,o.property)&&(!this.filterInResultsExecute||o.name.indexOf(this.filterInResultsExecute)>=0)).forEach((data,index)=>{
 				if(tag.length>0){
 					let i_t=_.intersection(data.tag,tag).length==0;
 					let i_a=_.intersection(data.ability,tag).length==0;
@@ -164,18 +156,17 @@ export default {
 			this.debouncedFilterInResultsDash();
 		},
 		reload(){
-			let that=this;
 			this.setLoading();
-			setTimeout(function (){
-				that.hitStaff();
-				that.unsetLoading();
+			setTimeout(()=>{
+				this.hitStaff();
+				this.unsetLoading();
 			},66);
 		},
 		calcUseful(){
 			// console.log(e);
-			let that=this,datav={},total=0;
-			this.data.staffsUnfiltered.forEach(function (v){
-				let data=that.evol._.task.getUseful(_.concat(_.cloneDeep(v.ability),_.cloneDeep(v.tag)));
+			let datav={},total=0;
+			this.data.staffsUnfiltered.forEach(v=>{
+				let data=this.evol._.task.getUseful(_.concat(_.cloneDeep(v.ability),_.cloneDeep(v.tag)));
 				datav[v.id.toString()]=data.hit;
 				total=data.total;
 			});
@@ -187,9 +178,7 @@ export default {
 		sortWithUseful(){
 			let hitData=this.calcUseful();
 			let resort=_.sortBy(this.data.staffsUnfiltered,[
-				function (o){
-					return -1*hitData[o.id.toString()];
-				}
+				o=>-1*hitData[o.id.toString()]
 			]);
 			this.data.staffsUnfiltered=resort;
 			this.debouncedFilterInResultsDash();

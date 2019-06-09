@@ -86,12 +86,11 @@ export default {
 		}
 	},
 	mounted(){
-		let that=this;
 		// console.log(this.specialTask,this.data);
 		// this.setLoading();
 		this.loadData();
-		// setTimeout(function (){
-		// 	that.unsetLoading(); // 加载所有关卡数据会因为数据量大而卡顿，这里用点奇怪的方法提高用户体验 // 这里的问题是上面那个注释掉的垃圾代码引起的，原因写在了上面某个div边上
+		// setTimeout(()=>{
+		// 	this.unsetLoading(); // 加载所有关卡数据会因为数据量大而卡顿，这里用点奇怪的方法提高用户体验 // 这里的问题是上面那个注释掉的垃圾代码引起的，原因写在了上面某个div边上
 		// },66);
 	},
 	methods: {
@@ -102,24 +101,21 @@ export default {
 			this.isLoading=false;
 		},
 		loadData(){
-			let that=this;
 			let tableChunkSize=5;
-			let tasks=_.groupBy(this.evol.task,function (o){
-				return that.evol.type.task(o.type/*o.id.toString().substr(0,1)*/);
-			});
+			let tasks=_.groupBy(this.evol.task,o=>this.evol.type.task(o.type/*o.id.toString().substr(0,1)*/));
 			tasks.male=_.groupBy(tasks.male,'role');
 			tasks.special=_.groupBy(tasks['special'],'type');
-			for(var k in tasks){
+			for(let k in tasks){
 				if(tasks.hasOwnProperty(k)&&['male','special'].indexOf(k)==-1){
 					tasks[k]=_.chunk(tasks[k],tableChunkSize);
 				}
 			}
-			for(var k in tasks.male){
+			for(let k in tasks.male){
 				if(tasks.male.hasOwnProperty(k)){
 					tasks.male[k]=_.chunk(tasks.male[k],tableChunkSize);
 				}
 			}
-			for(var k in tasks.special){
+			for(let k in tasks.special){
 				if(tasks.special.hasOwnProperty(k)){
 					tasks.special[k]=_.chunk(tasks.special[k],tableChunkSize);
 				}

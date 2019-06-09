@@ -120,28 +120,18 @@ export default {
 	},
 	methods: {
 		loadData(){
-			let that=this;
 			let thisTask=_.cloneDeep(this.evol.task[this.evol.index.task[this.$route.params.id.toString()]]);
 			// console.log(thisTask);
 			let chooseCardLimit=false;
 			if(thisTask.limit.chooseCard && thisTask.limit.chooseCard.length>0){
 				let a=[];
-				thisTask.limit.chooseCard.forEach(function (v){
-					a.push(that.evol.trans.role[v]);
-				});
+				thisTask.limit.chooseCard.forEach(v=>a.push(this.evol.trans.role[v]));
 				chooseCardLimit=a.join('、');
 			}
 			let prop=[];
-			_.forEach(thisTask.score.propertyRate,function (v,k){
-				prop.push({
-					v: v,
-					k: k
-				});
-			});
+			_.forEach(thisTask.score.propertyRate,(v,k)=>prop.push({v, k}));
 			let propa=[];
-			_.reverse(_.sortBy(prop,['v'])).forEach(function(d){
-				propa.push(d.k);
-			});
+			_.reverse(_.sortBy(prop,['v'])).forEach(d=>propa.push(d.k));
 			thisTask.advantageProperty=propa;
 			prop=propa=null;
 
@@ -156,15 +146,14 @@ export default {
 			if(tags.length<=0){
 				return;
 			}
-			let that=this;
 			let tag=[];
-			tags.forEach(function (v){
+			tags.forEach(v=>{
 				if(v!=-1){
 					tag.push(v);
 				}
 			});
 			let expertHit={};
-			this.evol.staff.forEach(function (data,index){
+			this.evol.staff.forEach((data,index)=>{
 				let sAbility=_.cloneDeep((data.ability));
 				let sTag=_.cloneDeep((data.tag));
 				let i_t=_.intersection(_.concat(sAbility,sTag),tag).length;
@@ -172,7 +161,7 @@ export default {
 					// that.repeatedExpert[data.id.toString()]=that.repeatedExpert[data.id.toString()]?that.repeatedExpert[data.id.toString()]+1:1;
 					// console.log(_.concat(sAbility,sTag),tag,i_t);
 					if(i_t>1){ // 只对匹配到的标签数量大于等于2的时候进行重复判断
-						that.repeatedExpert[data.id.toString()]=that.repeatedExpert[data.id.toString()]?that.repeatedExpert[data.id.toString()]+1:1;
+						this.repeatedExpert[data.id.toString()]=this.repeatedExpert[data.id.toString()]?this.repeatedExpert[data.id.toString()]+1:1;
 					}
 					if(!expertHit[i_t.toString()]){
 						expertHit[i_t.toString()]=[data];
@@ -182,15 +171,13 @@ export default {
 				}
 			});
 			let expertHitId={};
-			for(var i in expertHit){
+			for(let i in expertHit){
 				if(expertHit.hasOwnProperty(i)){
 					_.sortBy(expertHit[i],[ // 排序关键字：聘用价格（-1为剧情获得），属性，部署价格
 						'price.hire',
-						function (o){
-							return that.thisTask.advantageProperty.indexOf(o.property);
-						},
+						o=>this.thisTask.advantageProperty.indexOf(o.property),
 						'price.deploy'
-					]).forEach(function (data){
+					]).forEach(data=>{
 						// console.log(i,data.name,data.property,data.price.deploy,data.price.hire)
 						if(!expertHitId[i]){
 							expertHitId[i]=[data];
@@ -204,10 +191,9 @@ export default {
 			return expertHitId;
 		},
 		getCard(role,tag){
-			let that=this;
 			let hit=[];
-			_.forEach(this.evol.index.card_role[role],function (i){
-				let card=that.evol.card[i];
+			_.forEach(this.evol.index.card_role[role],i=>{
+				let card=this.evol.card[i];
 				// console.log(i,card)
 				if(card.tag==tag){
 					hit.push({
@@ -239,9 +225,9 @@ export default {
 		},
 		thisTaskReward(){
 			let a=[];
-			for(var i in this.thisTask.reward){
+			for(let i in this.thisTask.reward){
 				if(this.thisTask.reward.hasOwnProperty(i)){
-					for(var j in this.thisTask.reward[i]){
+					for(let j in this.thisTask.reward[i]){
 						if(this.thisTask.reward[i].hasOwnProperty(j)){
 							a.push(this.thisTask.reward[i][j]);
 						}
@@ -251,37 +237,37 @@ export default {
 			return a;
 		},
 		thisTaskEvent(){
-			let a=[],that=this;
-			this.thisTask.event.forEach(function (id){
-				let o=_.cloneDeep((that.evol.taskEvent[id]));
+			let a=[];
+			this.thisTask.event.forEach(id=>{
+				let o=_.cloneDeep((this.evol.taskEvent[id]));
 				let nowKey;
 
 				nowKey="description";
-				for(var k in o[nowKey]){
+				for(let k in o[nowKey]){
 					if(o[nowKey].hasOwnProperty(k)){
-						o[nowKey][k]=that.evol.text.get(o[nowKey][k]);
+						o[nowKey][k]=this.evol.text.get(o[nowKey][k]);
 					}
 				}
 				nowKey="feedback";
-				for(var k in o[nowKey]){
+				for(let k in o[nowKey]){
 					if(o[nowKey].hasOwnProperty(k)){
-						o[nowKey][k]=that.evol.text.get(o[nowKey][k]);
+						o[nowKey][k]=this.evol.text.get(o[nowKey][k]);
 					}
 				}
 				nowKey="selection";
 				if(o.hasOwnProperty(nowKey)){
-					for(var k in o[nowKey]){
+					for(let k in o[nowKey]){
 						if(o[nowKey].hasOwnProperty(k)){
-							o[nowKey][k]=that.evol.text.get(o[nowKey][k]);
+							o[nowKey][k]=this.evol.text.get(o[nowKey][k]);
 						}
 					}
 				}
 
 				if(o.type==1){
-					o.staffMatched=that.getStaff(o.tag);
+					o.staffMatched=this.getStaff(o.tag);
 				}
 				if(o.type==3){
-					o.cardMatched=that.getCard(that.thisTask.role,o.tag);
+					o.cardMatched=this.getCard(this.thisTask.role,o.tag);
 				}
 
 				a.push(o);

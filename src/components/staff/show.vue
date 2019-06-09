@@ -88,12 +88,9 @@ export default {
 	},
 	methods: {
 		loadData(){
-			let that=this;
 			let thisStaff=_.cloneDeep(this.evol.staff[this.evol.index.staff[this.$route.params.id.toString()]]);
 			let ability=[];
-			thisStaff.ability.forEach(function (value,i){
-				ability.push(that.evol.tag[value.toString()].name);
-			});
+			thisStaff.ability.forEach(value=>ability.push(this.evol.tag[value.toString()].name));
 			return {
 				thisStaff: thisStaff,
 				str: {

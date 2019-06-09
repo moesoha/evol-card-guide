@@ -32,7 +32,7 @@
 let searchInArray=function (str,arr){
 	let result=[],q=str;
 	if(q && q.trim().length>0){
-		for(var key in arr){
+		for(let key in arr){
 			if(arr.hasOwnProperty(key)){
 				if(arr[key].indexOf(q)!=-1){
 					result.push({
@@ -49,9 +49,7 @@ let searchInArray=function (str,arr){
 },getCardsDetail=function (datafield,indexfield,idfield){
 	// evol.card[evol.index.card[item.id.toString()]]
 	let a=[];
-	idfield.forEach(function (data){
-		a.push(datafield[indexfield[data.id.toString()]]);
-	});
+	idfield.forEach(data=>a.push(datafield[indexfield[data.id.toString()]]));
 	return a;
 };
 
